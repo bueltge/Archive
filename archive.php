@@ -229,10 +229,19 @@ if ( ! class_exists( 'FB_Archive' ) ) {
 		 */
 		public function get_plugin_data( $value = 'Version' ) {
 			
-			$plugin_data = get_plugin_data( __FILE__ );
+			static $plugin_data = array ();
+			
+			// fetch the data just once.
+			if ( isset( $plugin_data[ $value ] ) )
+				return $plugin_data[ $value ];
+			
+			if ( ! function_exists( 'get_plugin_data' ) )
+				require_once( ABSPATH . '/wp-admin/includes/plugin.php' );
+			
+			$plugin_data  = get_plugin_data( __FILE__ );
 			$plugin_value = $plugin_data[$value];
 			
-			return $plugin_value;
+			return empty ( $plugin_data[ $value ] ) ? '' : $plugin_data[ $value ];
 		}
 		
 		
@@ -254,7 +263,7 @@ if ( ! class_exists( 'FB_Archive' ) ) {
 					wp_sprintf( 
 						'<strong>%s:</strong> ' . 
 						__( 'Sorry, This plugin requires WordPress 3.0+', $this->textdomain )
-						, self::get_plugin_data('Name' )
+						, self::get_plugin_data( 'Name' )
 					)
 				);
 			}
@@ -266,7 +275,7 @@ if ( ! class_exists( 'FB_Archive' ) ) {
 					wp_sprintf(
 						'<strong>%1s:</strong> ' . 
 						__( 'Sorry, This plugin has taken a bold step in requiring PHP 5.0+, Your server is currently running PHP %2s, Please bug your host to upgrade to a recent version of PHP which is less bug-prone. At last count, <strong>over 80%% of WordPress installs are using PHP 5.2+</strong>.', $this->textdomain )
-						, self::get_plugin_data('Name' ), PHP_VERSION 
+						, self::get_plugin_data( 'Name' ), PHP_VERSION 
 					)
 				);
 			}
