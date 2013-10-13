@@ -8,7 +8,7 @@
 
 class FB_Archive_Settings {
 	
-	static private $classobj 	= NULL;
+	protected static $classobj = NULL;
 	// string for translation
 	public $textdomain;
 	
@@ -20,7 +20,7 @@ class FB_Archive_Settings {
 	 * @since 0.0.2
 	 * @return $classobj
 	 */
-	public function get_object() {
+	public static function get_object() {
 		
 		if ( NULL === self :: $classobj ) {
 			self :: $classobj = new self;
