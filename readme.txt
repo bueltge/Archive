@@ -2,7 +2,7 @@
 Contributors: Bueltge
 Tags: post, custom post type, archive
 Requires at least: 3.0
-Tested up to: 3.7-beta1
+Tested up to: 3.9
 Stable tag: 0.0.3
 
 Archive your post types, also possible with cron.
