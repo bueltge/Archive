@@ -1,17 +1,37 @@
 === Archive ===
-Contributors: Bueltge
+Contributors: Bueltge, inpsyde
 Tags: post, custom post type, archive
 Requires at least: 3.0
 Tested up to: 3.9
-Stable tag: 0.0.3
+Stable tag: 0.0.4
 
-Archive your post types, also possible with cron.
+Archive your post types, also possible with cron and list via shortcode on frontend.
 
 == Description ==
 Archive your post types, also possible via cron; but only active via var inside the php-file.
+Use the shortcode [archive] to list al posts from Archive with status publish to a page or post.
+The Shortcode can use different params and use the folow defaults.
+
+`
+'count'         => -1, // count or -1 for all posts
+'post_status'   => 'publish', // status or all for all posts
+'echo'          => TRUE, // echo or give an array for use external
+'return_markup' => 'ul', // markup before echo title, content
+'title_markup'  => 'li', // markup before item
+'content'       => FALSE, // view also content?
+'debug'         => FALSE // debug mor vor view an array
+`
+
+An example for use shortcode with params: `[archive count="10" content="true"]`
+
+**Made by [Inpsyde](http://inpsyde.com) &middot; We love WordPress**
+
+Have a look at the premium plugins in our [market](http://marketpress.com).
 
 = Localizations =
 * Thanks to [Frank B&uuml;ltge](http://bueltge.de/ "Frank B&uuml;ltge") for german language file
+* Thanks to [Brian Flores](http://www.inmotionhosting.com/) for spanish translation
+* Lithuanian translation files by [Vincent G](http://www.host1plus.com)
 
 == Installation ==
 = Requirements =
@@ -35,6 +55,10 @@ The plugin comes with various translations, please refer to the [WordPress Codex
 2. In Archive, also possible to restore
 
 == Changelog ==
+= 0.0.4 =
+* add shortcode to list on frontend
+* add function to add all items to wp query, set only via var in php file
+
 = 0.0.3 =
 * small fixes on language file for better read.
 * cron on default inactive
@@ -44,4 +68,3 @@ The plugin comes with various translations, please refer to the [WordPress Codex
 
 = 0.0.1 =
 * Release first version
-
