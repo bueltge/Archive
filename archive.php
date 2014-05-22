@@ -133,8 +133,8 @@ if ( ! class_exists( 'FB_Archive' ) ) {
 		public function __construct () {
 			
 			// include settings on profile
-			require_once dirname( __FILE__ ) . DIRECTORY_SEPARATOR . 'inc/class.settings.php';
-			$fb_archive_settings = FB_Archive_Settings :: get_object();
+			//require_once dirname( __FILE__ ) . DIRECTORY_SEPARATOR . 'inc/class.settings.php';
+			//$fb_archive_settings = FB_Archive_Settings :: get_object();
 			
 			// for  WP 3.1 and higher
 			//add_filter( 'site_transient_update_plugins', array( &$this, 'remove_update_nag' ) );

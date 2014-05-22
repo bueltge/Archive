@@ -2,8 +2,8 @@
 Contributors: Bueltge, inpsyde
 Tags: post, custom post type, archive
 Requires at least: 3.0
-Tested up to: 3.9
-Stable tag: 0.0.4
+Tested up to: 4.0-alpha
+Stable tag: trunk
 
 Archive your post types, also possible with cron and list via shortcode on frontend.
 
@@ -55,6 +55,9 @@ The plugin comes with various translations, please refer to the [WordPress Codex
 2. In Archive, also possible to restore
 
 == Changelog ==
+= 0.0.5 =
+* Fix php notices
+
 = 0.0.4 =
 * add shortcode to list on frontend
 * add function to add all items to wp query, set only via var in php file
