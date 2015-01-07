@@ -489,10 +489,6 @@ if ( ! class_exists( 'FB_Archive' ) ) {
 		 */
 		public function enqueue_script( $pagehook ) {
 
-			if ( defined( 'WP_DEBUG' ) && WP_DEBUG && isset( $_GET[ 'debug' ] ) && $_GET[ 'debug' ] === 'true' ) {
-				echo '<br><br>Pagehook: <code>' . $pagehook . $post_type . '</code>';
-			}
-
 			$suffix = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '.dev' : '';
 
 			$archive_pages     = array( 'edit.php' );
