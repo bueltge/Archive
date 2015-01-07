@@ -246,7 +246,6 @@ if ( ! class_exists( 'FB_Archive' ) ) {
 			}
 
 			$plugin_data  = get_plugin_data( __FILE__ );
-			$plugin_value = $plugin_data[ $value ];
 
 			return empty ( $plugin_data[ $value ] ) ? '' : $plugin_data[ $value ];
 		}
@@ -347,7 +346,7 @@ if ( ! class_exists( 'FB_Archive' ) ) {
 		/**
 		 * Disable plugin update notifications
 		 *
-		 * @param unknown_type $value
+		 * @param $value
 		 *
 		 * @since 0.0.1
 		 * @link  http://dd32.id.au/2011/03/01/disable-plugin-update-notification-for-a-specific-plugin-in-wordpress-3-1/
@@ -483,7 +482,7 @@ if ( ! class_exists( 'FB_Archive' ) ) {
 		 * @access public
 		 * @since  0.0.1
 		 *
-		 * @param unknown_type $pagehook
+		 * @param  $pagehook
 		 *
 		 * @return void
 		 */
@@ -534,7 +533,7 @@ if ( ! class_exists( 'FB_Archive' ) ) {
 		 */
 		public function add_archive_link( $actions, $id ) {
 
-			global $post, $current_screen, $mode;
+			global $post, $current_screen;
 
 			$post_type_object = get_post_type_object( $post->post_type );
 			//var_dump( $current_screen);
@@ -571,7 +570,7 @@ if ( ! class_exists( 'FB_Archive' ) ) {
 		 */
 		public function add_unset_archive_link( $actions, $id ) {
 
-			global $post, $current_screen, $mode;
+			global $post, $current_screen;
 
 			$post_type_object = get_post_type_object( $post->post_type );
 
@@ -604,16 +603,16 @@ if ( ! class_exists( 'FB_Archive' ) ) {
 		public function get_archive_post_link( $id = 0 ) {
 
 			if ( ! $post = get_post( $id ) ) {
-				return;
+				return NULL;
 			}
 
 			$post_type_object = get_post_type_object( $post->post_type );
 			if ( ! $post_type_object ) {
-				return;
+				return NULL;
 			}
 
 			if ( ! current_user_can( $post_type_object->cap->delete_post, $post->ID ) ) {
-				return;
+				return NULL;
 			}
 
 			$action       = NULL;
@@ -641,16 +640,16 @@ if ( ! class_exists( 'FB_Archive' ) ) {
 		public function get_unset_archive_post_link( $id = 0 ) {
 
 			if ( ! $post = get_post( $id ) ) {
-				return;
+				return NULL;
 			}
 
 			$post_type_object = get_post_type_object( $post->post_type );
 			if ( ! $post_type_object ) {
-				return;
+				return NULL;
 			}
 
 			if ( ! current_user_can( $post_type_object->cap->delete_post, $post->ID ) ) {
-				return;
+				return NULL;
 			}
 
 			$action             = NULL;
@@ -783,13 +782,13 @@ if ( ! class_exists( 'FB_Archive' ) ) {
 				) . "'",
 				ARRAY_A
 			);
-			//var_dump( $archived);exit;
+
 			if ( is_wp_error( $archived ) ) {
-				return FALSE;
+				return NULL;
 			}
 
 			if ( ! $archived ) {
-				return FALSE;
+				return NULL;
 			}
 
 			foreach ( $archived as $value ) {
@@ -1019,8 +1018,8 @@ if ( ! class_exists( 'FB_Archive' ) ) {
 		 * @access  public
 		 * @since   0.0.1
 		 *
-		 * @param   string  $taxonomy key
-		 * @param   integer $id       , Default is FALSE
+		 * @param   string $taxonomy key
+		 * @param   bool|int $id       , Default is FALSE
 		 *
 		 * @return  array string $categories
 		 */
@@ -1084,11 +1083,11 @@ if ( ! class_exists( 'FB_Archive' ) ) {
 		 * Return content of new raw in the table
 		 *
 		 * @uses   get_the_term_list
-		 * @acces  public
+		 * @access  public
 		 * @since  0.0.1
 		 *
 		 * @param  string  $column_name
-		 * @param  interer $id
+		 * @param  integer $id
 		 *
 		 * @return integer $id
 		 */
@@ -1098,13 +1097,13 @@ if ( ! class_exists( 'FB_Archive' ) ) {
 
 			switch ( $column_name ) {
 				case $this->taxonomy_type_1:
-					$structure = '';
 					$taxonomys = get_the_term_list( $id, $this->taxonomy_type_1, '', ', ', '' );
 					if ( isset( $taxonomys[ 0 ] ) ) {
 						$structure = $taxonomys;
 					} else {
 						$structure = __( 'No', self::$textdomain ) . $this->taxonomy_type_1;
 					}
+
 					$value = $structure;
 					break;
 				case 'aid':
@@ -1160,12 +1159,12 @@ if ( ! class_exists( 'FB_Archive' ) ) {
 		/**
 		 * hook inside the rows of wp
 		 *
-		 * @uses   get_post_type_object
-		 * @access public
-		 * @since  0.0.1
+		 * @uses     get_post_type_object
+		 * @access   public
+		 * @since    0.0.1
 		 *
-		 * @param          array string $actions
-		 * @param  integer $id
+		 * @internal param string $array $actions
+		 * @internal param int $id
 		 *
 		 * @return array $actions
 		 */
@@ -1198,11 +1197,15 @@ if ( ! class_exists( 'FB_Archive' ) ) {
 		 * Get the help
 		 *
 		 * @uses
-		 * @since  0.0.1
+		 * @since    0.0.1
 		 *
-		 * @param  $array
-		 * @param  $position
-		 * @param  $insert_array
+		 * @param $contextual_help
+		 * @param $screen_id
+		 * @param $screen
+		 *
+		 * @internal param $array
+		 * @internal param $position
+		 * @internal param $insert_array
 		 *
 		 * @return string $contextual_help
 		 */
@@ -1233,7 +1236,7 @@ if ( ! class_exists( 'FB_Archive' ) ) {
 		public function add_to_query( $query ) {
 
 			if ( is_admin() || is_preview() ) {
-				return;
+				return NULL;
 			}
 
 			if ( ! isset( $query->query_vars[ 'suppress_filters' ] ) || FALSE == $query->query_vars[ 'suppress_filters' ] ) {
@@ -1255,8 +1258,6 @@ if ( ! class_exists( 'FB_Archive' ) ) {
 		 * @return string | array $archived_posts
 		 */
 		public function add_shortcode( $atts, $content = NULL ) {
-
-			global $wpdb;
 
 			extract(
 				shortcode_atts(
