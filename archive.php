@@ -441,8 +441,6 @@ if ( ! class_exists( 'FB_Archive' ) ) {
 
 			wp_register_style( 'archive-page', plugins_url( 'css/settings.css', __FILE__ ) );
 			wp_register_style( 'archive-structure-page', plugins_url( 'css/structures.css', __FILE__ ) );
-			//wp_register_style( 'archive-menu', plugins_url( 'css/menu.css', __FILE__ ) );
-			//wp_enqueue_style( 'archive-menu' );
 
 			add_filter( 'post_row_actions', array( $this, 'add_archive_link' ), 10, 2 );
 			add_filter( 'page_row_actions', array( $this, 'add_archive_link' ), 10, 2 );
