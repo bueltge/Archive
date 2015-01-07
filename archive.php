@@ -13,28 +13,28 @@
  */
 
 /**
-License:
-==============================================================================
-Copyright Frank Bueltge  (email : frank@bueltge.de)
-
-This program is free software; you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation; either version 2 of the License, or
-(at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with this program; if not, write to the Free Software
-Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-
-Requirement
-==============================================================================
-This plugin requires WordPress >= 3.0 and tested with PHP Interpreter >= 5.3.1
-*/
+ * License:
+ * ==============================================================================
+ * Copyright Frank Bueltge  (email : frank@bueltge.de)
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ *
+ * Requirement
+ * ==============================================================================
+ * This plugin requires WordPress >= 3.0 and tested with PHP Interpreter >= 5.3.1
+ */
 
 if ( ! class_exists( 'FB_Archive' ) ) {
 
@@ -66,13 +66,16 @@ if ( ! class_exists( 'FB_Archive' ) ) {
 		// set capabilities on roles
 		public $todo_roles = array(
 			'administrator'
-			, 'editor'
+		,
+			'editor'
 		);
 
 		public $read_roles = array(
 			'author'
-			, 'contributor'
-			, 'subscriber'
+		,
+			'contributor'
+		,
+			'subscriber'
 		);
 
 		/**
@@ -85,6 +88,7 @@ if ( ! class_exists( 'FB_Archive' ) ) {
 		/**
 		 * Keys for view archive-link on defined screens
 		 * Add Screen Id or not an array for view link on all screens
+		 *
 		 * @see http://codex.wordpress.org/Plugin_API/Admin_Screen_Reference
 		 */
 		public $def_archive_screens = ''; //array( 'edit-post', 'edit-page' );
@@ -95,7 +99,7 @@ if ( ! class_exists( 'FB_Archive' ) ) {
 		public $def_unset_screens = array( 'edit-archiv' );
 
 		/**
-		 * Key for active Schedluling posts
+		 * Key for active Scheduling posts
 		 *
 		 * @var boolean
 		 */
@@ -125,12 +129,12 @@ if ( ! class_exists( 'FB_Archive' ) ) {
 		/**
 		 * construct
 		 *
-		 * @uses add_filter, add_action, localize_plugin, register_activation_hook, register_uninstall_hook
+		 * @uses   add_filter, add_action, localize_plugin, register_activation_hook, register_uninstall_hook
 		 * @access public
-		 * @since 0.0.1
-		 * @return void
+		 * @since  0.0.1
+		 * @return \FB_Archive
 		 */
-		public function __construct () {
+		public function __construct() {
 
 			// include settings on profile
 			//require_once dirname( __FILE__ ) . DIRECTORY_SEPARATOR . 'inc/class.settings.php';
@@ -145,15 +149,16 @@ if ( ! class_exists( 'FB_Archive' ) ) {
 			// on activation of the plugin add cap to roles
 			register_activation_hook( __FILE__, array( &$this, 'on_activate' ) );
 			// on uninstall remove capability from roles
-			register_uninstall_hook( __FILE__, array('FB_Archive', 'on_deactivate' ) );
+			register_uninstall_hook( __FILE__, array( 'FB_Archive', 'on_deactivate' ) );
 
 			// add post type
 			add_action( 'init', array( &$this, 'build_post_type' ) );
 
 			// add scheduled archive
 			add_action( 'init', array( $this, 'schedule_archived_check' ) );
-			if ( (bool) $this->scheduled_archiving )
+			if ( (bool) $this->scheduled_archiving ) {
 				add_action( 'scheduled_archiving', array( $this, 'scheduled_archiving' ) );
+			}
 
 			add_action( 'admin_init', array( $this, 'add_settings_error' ) );
 
@@ -161,18 +166,18 @@ if ( ! class_exists( 'FB_Archive' ) ) {
 			add_action( 'admin_init', array( &$this, 'on_admin_init' ) );
 			add_action( 'admin_menu', array( $this, 'remove_menu_entry' ) );
 			// include js
-			add_action( 'admin_enqueue_scripts',	array( $this, 'enqueue_script' ), 10, 1 );
+			add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_script' ), 10, 1 );
 
 			// help on snippet-pages in next version
 			add_action( 'contextual_help', array( &$this, 'add_help_text' ), 10, 3 );
 
 			// add to query loop
-			if ( $this -> add_to_query )
+			if ( $this->add_to_query ) {
 				add_action( 'pre_get_posts', array( $this, 'add_to_query' ) );
+			}
 			// add shortcode for list items of archive
-			add_shortcode( 'archive', array(&$this, 'add_shortcode') );
+			add_shortcode( 'archive', array( &$this, 'add_shortcode' ) );
 		}
-
 
 		/**
 		 * Return Textdomain string
@@ -186,22 +191,21 @@ if ( ! class_exists( 'FB_Archive' ) ) {
 			return self::$textdomain;
 		}
 
-
 		/**
 		 * points the class
 		 *
 		 * @access public
-		 * @since 0.0.1
+		 * @since  0.0.1
 		 * @return object
 		 */
-		public static function get_object () {
+		public static function get_object() {
 
-			if ( FALSE === self :: $classobj )
-				self :: $classobj = new self;
+			if ( FALSE === self:: $classobj ) {
+				self:: $classobj = new self;
+			}
 
-			return self :: $classobj;
+			return self:: $classobj;
 		}
-
 
 		/**
 		 * localize_plugin function.
@@ -211,11 +215,10 @@ if ( ! class_exists( 'FB_Archive' ) ) {
 		 * @since  0.0.1
 		 * @return void
 		 */
-		public function localize_plugin () {
+		public function localize_plugin() {
 
-			load_plugin_textdomain( self::$textdomain, FALSE, dirname( plugin_basename(__FILE__) ) . '/languages' );
+			load_plugin_textdomain( self::$textdomain, FALSE, dirname( plugin_basename( __FILE__ ) ) . '/languages' );
 		}
-
 
 		/**
 		 * return plugin comment data
@@ -223,27 +226,30 @@ if ( ! class_exists( 'FB_Archive' ) ) {
 		 * @uses   get_plugin_data
 		 * @access public
 		 * @since  0.0.1
+		 *
 		 * @param  $value string, default = 'Version'
-		 *         Name, PluginURI, Version, Description, Author, AuthorURI, TextDomain, DomainPath, Network, Title
+		 *                Name, PluginURI, Version, Description, Author, AuthorURI, TextDomain, DomainPath, Network, Title
+		 *
 		 * @return string
 		 */
 		public function get_plugin_data( $value = 'Version' ) {
 
-			static $plugin_data = array ();
+			static $plugin_data = array();
 
 			// fetch the data just once.
-			if ( isset( $plugin_data[ $value ] ) )
+			if ( isset( $plugin_data[ $value ] ) ) {
 				return $plugin_data[ $value ];
+			}
 
-			if ( ! function_exists( 'get_plugin_data' ) )
+			if ( ! function_exists( 'get_plugin_data' ) ) {
 				require_once( ABSPATH . '/wp-admin/includes/plugin.php' );
+			}
 
 			$plugin_data  = get_plugin_data( __FILE__ );
-			$plugin_value = $plugin_data[$value];
+			$plugin_value = $plugin_data[ $value ];
 
 			return empty ( $plugin_data[ $value ] ) ? '' : $plugin_data[ $value ];
 		}
-
 
 		/**
 		 * On activate plugin
@@ -253,18 +259,19 @@ if ( ! class_exists( 'FB_Archive' ) ) {
 		 * @since  0.0.1
 		 * @return void
 		 */
-		public function on_activate () {
+		public function on_activate() {
+
 			global $wp_roles, $wp_version;
 
 			// check wp version
 			if ( ! version_compare( $wp_version, '3.0', '>=' ) ) {
-				deactivate_plugins(__FILE__);
+				deactivate_plugins( __FILE__ );
 				die(
-					wp_sprintf(
-						'<strong>%s:</strong> ' .
-						__( 'Sorry, This plugin requires WordPress 3.0+', self::$textdomain )
-						, self::get_plugin_data( 'Name' )
-					)
+				wp_sprintf(
+					'<strong>%s:</strong> ' .
+					__( 'Sorry, This plugin requires WordPress 3.0+', self::$textdomain )
+					, self::get_plugin_data( 'Name' )
+				)
 				);
 			}
 
@@ -272,23 +279,26 @@ if ( ! class_exists( 'FB_Archive' ) ) {
 			if ( version_compare( PHP_VERSION, '5.2.0', '<' ) ) {
 				deactivate_plugins( __FILE__ ); // Deactivate ourself
 				die(
-					wp_sprintf(
-						'<strong>%1s:</strong> ' .
-						__( 'Sorry, This plugin has taken a bold step in requiring PHP 5.0+, Your server is currently running PHP %2s, Please bug your host to upgrade to a recent version of PHP which is less bug-prone. At last count, <strong>over 80%% of WordPress installs are using PHP 5.2+</strong>.', self::$textdomain )
-						, self::get_plugin_data( 'Name' ), PHP_VERSION
+				wp_sprintf(
+					'<strong>%1s:</strong> ' .
+					__(
+						'Sorry, This plugin has taken a bold step in requiring PHP 5.0+, Your server is currently running PHP %2s, Please bug your host to upgrade to a recent version of PHP which is less bug-prone. At last count, <strong>over 80%% of WordPress installs are using PHP 5.2+</strong>.',
+						self::$textdomain
 					)
+					, self::get_plugin_data( 'Name' ), PHP_VERSION
+				)
 				);
 			}
 
 			foreach ( $this->todo_roles as $role ) {
-				$wp_roles->add_cap( $role, 'edit_'			. $this->post_type_1 );
-				$wp_roles->add_cap( $role, 'edit_'			. $this->post_type_1 . 's' );
-				$wp_roles->add_cap( $role, 'edit_others_'	. $this->post_type_1 . 's' );
-				$wp_roles->add_cap( $role, 'publish_'		. $this->post_type_1 . 's' );
-				$wp_roles->add_cap( $role, 'read_'			. $this->post_type_1 );
-				$wp_roles->add_cap( $role, 'read_private_'	. $this->post_type_1 . 's' );
-				$wp_roles->add_cap( $role, 'delete_'		. $this->post_type_1 );
-				$wp_roles->add_cap( $role, 'manage_'		. $this->taxonomy_type_1 );
+				$wp_roles->add_cap( $role, 'edit_' . $this->post_type_1 );
+				$wp_roles->add_cap( $role, 'edit_' . $this->post_type_1 . 's' );
+				$wp_roles->add_cap( $role, 'edit_others_' . $this->post_type_1 . 's' );
+				$wp_roles->add_cap( $role, 'publish_' . $this->post_type_1 . 's' );
+				$wp_roles->add_cap( $role, 'read_' . $this->post_type_1 );
+				$wp_roles->add_cap( $role, 'read_private_' . $this->post_type_1 . 's' );
+				$wp_roles->add_cap( $role, 'delete_' . $this->post_type_1 );
+				$wp_roles->add_cap( $role, 'manage_' . $this->taxonomy_type_1 );
 			}
 
 			foreach ( $this->read_roles as $role ) {
@@ -300,7 +310,6 @@ if ( ! class_exists( 'FB_Archive' ) ) {
 			flush_rewrite_rules();
 		}
 
-
 		/**
 		 * On deactivate plugin remove capabilities
 		 *
@@ -309,21 +318,21 @@ if ( ! class_exists( 'FB_Archive' ) ) {
 		 * @since  0.0.1
 		 * @return void
 		 */
-		static function on_deactivate () {
+		static function on_deactivate() {
 
 			$obj = FB_Archive::get_object();
 
 			global $wp_roles;
 
 			foreach ( $obj->todo_roles as $role ) {
-				$wp_roles->remove_cap( $role, 'edit_'			. $obj->post_type_1 );
-				$wp_roles->remove_cap( $role, 'edit_'			. $obj->post_type_1 . 's' );
-				$wp_roles->remove_cap( $role, 'edit_others_'	. $obj->post_type_1 . 's' );
-				$wp_roles->remove_cap( $role, 'publish_'		. $obj->post_type_1 . 's' );
-				$wp_roles->remove_cap( $role, 'read_'			. $obj->post_type_1 );
-				$wp_roles->remove_cap( $role, 'read_private_'	. $obj->post_type_1 . 's' );
-				$wp_roles->remove_cap( $role, 'delete_'			. $obj->post_type_1 );
-				$wp_roles->remove_cap( $role, 'manage_'			. $obj->taxonomy_type_1 );
+				$wp_roles->remove_cap( $role, 'edit_' . $obj->post_type_1 );
+				$wp_roles->remove_cap( $role, 'edit_' . $obj->post_type_1 . 's' );
+				$wp_roles->remove_cap( $role, 'edit_others_' . $obj->post_type_1 . 's' );
+				$wp_roles->remove_cap( $role, 'publish_' . $obj->post_type_1 . 's' );
+				$wp_roles->remove_cap( $role, 'read_' . $obj->post_type_1 );
+				$wp_roles->remove_cap( $role, 'read_private_' . $obj->post_type_1 . 's' );
+				$wp_roles->remove_cap( $role, 'delete_' . $obj->post_type_1 );
+				$wp_roles->remove_cap( $role, 'manage_' . $obj->taxonomy_type_1 );
 			}
 
 			foreach ( $obj->read_roles as $role ) {
@@ -335,24 +344,26 @@ if ( ! class_exists( 'FB_Archive' ) ) {
 			flush_rewrite_rules();
 		}
 
-
 		/**
 		 * Disable plugin update notifications
 		 *
 		 * @param unknown_type $value
+		 *
 		 * @since 0.0.1
-		 * @link http://dd32.id.au/2011/03/01/disable-plugin-update-notification-for-a-specific-plugin-in-wordpress-3-1/
-		 * @param array string $value
+		 * @link  http://dd32.id.au/2011/03/01/disable-plugin-update-notification-for-a-specific-plugin-in-wordpress-3-1/
+		 *
+		 * @param              array string $value
+		 *
 		 * @return array string $value
 		 */
-		public function remove_update_nag( $value) {
+		public function remove_update_nag( $value ) {
 
-			if ( isset( $value) && is_object( $value) )
-				unset( $value->response[ plugin_basename(__FILE__) ] );
+			if ( isset( $value ) && is_object( $value ) ) {
+				unset( $value->response[ plugin_basename( __FILE__ ) ] );
+			}
 
 			return $value;
 		}
-
 
 		/**
 		 * Return post type
@@ -364,15 +375,17 @@ if ( ! class_exists( 'FB_Archive' ) ) {
 		 */
 		private function get_post_type() {
 
-			if ( ! function_exists( 'get_post_type_object' ) )
+			if ( ! function_exists( 'get_post_type_object' ) ) {
 				return NULL;
+			}
 
-			if ( isset($_GET['post']) )
-				$post_id = (int) $_GET['post'];
-			elseif ( isset($_POST['post_ID']) )
-				$post_id = (int) $_POST['post_ID'];
-			else
+			if ( isset( $_GET[ 'post' ] ) ) {
+				$post_id = (int) $_GET[ 'post' ];
+			} elseif ( isset( $_POST[ 'post_ID' ] ) ) {
+				$post_id = (int) $_POST[ 'post_ID' ];
+			} else {
 				$post_id = 0;
+			}
 
 			$post             = NULL;
 			$post_type_object = NULL;
@@ -382,40 +395,37 @@ if ( ! class_exists( 'FB_Archive' ) ) {
 				if ( $post ) {
 					$post_type_object = get_post_type_object( $post->post_type );
 					if ( $post_type_object && ! empty( $post->post_type ) ) {
-						$post_type                 = $post->post_type;
+						$post_type      = $post->post_type;
 						$current_screen = get_current_screen();
 						if (
-							empty( $current_screen->post_type ) ||
-							$current_screen->post_type !== $post->post_type
+							empty( $current_screen->post_type ) || $current_screen->post_type !== $post->post_type
 						) {
-							$current_screen = new stdClass();
+							$current_screen            = new stdClass();
 							$current_screen->post_type = &$post->post_type;
 							$current_screen->id        = $current_screen->post_type;
 						}
 					}
 				}
-			} elseif ( isset( $_POST['post_type'] ) ) {
-				$post_type_object = get_post_type_object( $_POST['post_type'] );
+			} elseif ( isset( $_POST[ 'post_type' ] ) ) {
+				$post_type_object = get_post_type_object( $_POST[ 'post_type' ] );
 				if ( $post_type_object && ! empty( $post->post_type ) ) {
-					$post_type                 = $post_type_object->name;
+					$post_type      = $post_type_object->name;
 					$current_screen = get_current_screen();
 					if (
-						empty( $current_screen->post_type ) ||
-						$current_screen->post_type !== $post->post_type
+						empty( $current_screen->post_type ) || $current_screen->post_type !== $post->post_type
 					) {
-						$current_screen = new stdClass();
+						$current_screen            = new stdClass();
 						$current_screen->post_type = $post_type;
 						$current_screen->id        = $current_screen->post_type;
 					}
 				}
-			} elseif ( isset( $_SERVER['QUERY_STRING'] ) ) {
-				$post_type = esc_attr( $_SERVER['QUERY_STRING'] );
+			} elseif ( isset( $_SERVER[ 'QUERY_STRING' ] ) ) {
+				$post_type = esc_attr( $_SERVER[ 'QUERY_STRING' ] );
 				$post_type = str_replace( 'post_type=', '', $post_type );
 			}
 
 			return $post_type;
 		}
-
 
 		/**
 		 * On admin init
@@ -425,13 +435,13 @@ if ( ! class_exists( 'FB_Archive' ) ) {
 		 * @since  0.0.1
 		 * @return void
 		 */
-		public function on_admin_init () {
+		public function on_admin_init() {
 
 			$post_type = $this->get_post_type();
 
 			wp_register_style( 'archive-page', plugins_url( 'css/settings.css', __FILE__ ) );
 			wp_register_style( 'archive-structure-page', plugins_url( 'css/structures.css', __FILE__ ) );
-			wp_register_style( 'archive-menu', plugins_url( 'css/menu.css', __FILE__ ) );
+			//wp_register_style( 'archive-menu', plugins_url( 'css/menu.css', __FILE__ ) );
 			wp_enqueue_style( 'archive-menu' );
 
 			add_filter( 'post_row_actions', array( $this, 'add_archive_link' ), 10, 2 );
@@ -448,7 +458,8 @@ if ( ! class_exists( 'FB_Archive' ) ) {
 
 			if ( $this->post_type_1 == $post_type ) {
 				// add meta box with ID
-				add_meta_box( 'id',
+				add_meta_box(
+					'id',
 					__( 'Archive Info', self::$textdomain ),
 					array( &$this, 'additional_meta_box' ),
 					$this->post_type_1, 'side', 'high'
@@ -458,43 +469,45 @@ if ( ! class_exists( 'FB_Archive' ) ) {
 			$defined_pages = array(
 				'archiv&amp;page=archive_settings_group&amp;settings-updated=true',
 				'archiv&amp;page=archive_settings_group',
-				$this -> post_type_1
+				$this->post_type_1
 			);
-			if ( in_array( $post_type, $defined_pages ) )
+			if ( in_array( $post_type, $defined_pages ) ) {
 				wp_enqueue_style( 'archive-page' );
-			elseif ( 'taxonomy=' . $this->taxonomy_type_1 . '&amp;' . $this->post_type_1 == $post_type )
+			} elseif ( 'taxonomy=' . $this->taxonomy_type_1 . '&amp;' . $this->post_type_1 == $post_type ) {
 				wp_enqueue_style( 'archive-structure-page' );
+			}
 		}
-
 
 		/**
 		 * Enqueue scripts in WP
 		 *
-		 * @uses wp_enqueue_script
+		 * @uses   wp_enqueue_script
 		 * @access public
-		 * @since 0.0.1
+		 * @since  0.0.1
+		 *
 		 * @param unknown_type $pagehook
+		 *
 		 * @return void
 		 */
 		public function enqueue_script( $pagehook ) {
 
-			if ( defined('WP_DEBUG') && WP_DEBUG && isset( $_GET['debug']) && $_GET['debug'] === 'true' )
-				echo '<br><br>Pagehook: <code>' . $pagehook .$post_type . '</code>';
+			if ( defined( 'WP_DEBUG' ) && WP_DEBUG && isset( $_GET[ 'debug' ] ) && $_GET[ 'debug' ] === 'true' ) {
+				echo '<br><br>Pagehook: <code>' . $pagehook . $post_type . '</code>';
+			}
 
-			$suffix = defined('SCRIPT_DEBUG') && SCRIPT_DEBUG ? '.dev' : '';
+			$suffix = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '.dev' : '';
 
-			$archive_pages = array( 'edit.php' );
+			$archive_pages     = array( 'edit.php' );
 			$archive_post_type = array( $this->post_type_1, $this->post_type_1 . '&debug =true' );
 
 			if ( in_array( $pagehook, $archive_pages ) && in_array( $this->get_post_type(), $archive_post_type ) ) {
 				wp_enqueue_script(
 					'jquery-archive-script',
-					WP_PLUGIN_URL . '/' . dirname( plugin_basename(__FILE__) ) . '/js/script' . $suffix. '.js',
+					WP_PLUGIN_URL . '/' . dirname( plugin_basename( __FILE__ ) ) . '/js/script' . $suffix . '.js',
 					array( 'jquery' )
 				);
 			}
 		}
-
 
 		/**
 		 * Schedule check
@@ -504,15 +517,14 @@ if ( ! class_exists( 'FB_Archive' ) ) {
 		 * @since  0.0.1
 		 * @return void
 		 */
-		public function schedule_archived_check () {
+		public function schedule_archived_check() {
 
-			if ( ! wp_next_scheduled('scheduled_archiving') && (bool) $this->scheduled_archiving ) {
+			if ( ! wp_next_scheduled( 'scheduled_archiving' ) && (bool) $this->scheduled_archiving ) {
 				wp_schedule_event( time(), 'twicedaily', 'scheduled_archiving' ); // hourly, daily and twicedaily
-			} elseif ( ! (bool) $this->scheduled_archiving && wp_next_scheduled('scheduled_archiving') ) {
+			} elseif ( ! (bool) $this->scheduled_archiving && wp_next_scheduled( 'scheduled_archiving' ) ) {
 				wp_clear_scheduled_hook( 'scheduled_archiving' );
 			}
 		}
-
 
 		/**
 		 * Add link on archive
@@ -520,28 +532,36 @@ if ( ! class_exists( 'FB_Archive' ) ) {
 		 * @uses   get_post_type_object, get_archive_post_link, current_user_can, esc_attr
 		 * @access public
 		 * @since  0.0.1
-		 * @param  array string $actions
+		 *
+		 * @param          array string $actions
 		 * @param  integer $id
+		 *
 		 * @return array $actions
 		 */
 		public function add_archive_link( $actions, $id ) {
+
 			global $post, $current_screen, $mode;
 
 			$post_type_object = get_post_type_object( $post->post_type );
 			//var_dump( $current_screen);
-			if ( is_array( $this->def_archive_screens ) && ! in_array( $current_screen->id, $this->def_archive_screens ) )
+			if ( is_array( $this->def_archive_screens )
+				&& ! in_array(
+					$current_screen->id, $this->def_archive_screens
+				)
+			) {
 				return $actions;
-			if ( ! current_user_can( $post_type_object->cap->delete_post, $post->ID ) )
+			}
+			if ( ! current_user_can( $post_type_object->cap->delete_post, $post->ID ) ) {
 				return $actions;
+			}
 
-			$actions['archive'] = '<a href="' . $this->get_archive_post_link( $post->ID )
+			$actions[ 'archive' ] = '<a href="' . $this->get_archive_post_link( $post->ID )
 				. '" title="'
-				. esc_attr( __( 'Move this item to the Archive', self::$textdomain  ) )
-				. '">' . __( 'Archive', self::$textdomain  ) . '</a>';
+				. esc_attr( __( 'Move this item to the Archive', self::$textdomain ) )
+				. '">' . __( 'Archive', self::$textdomain ) . '</a>';
 
 			return $actions;
 		}
-
 
 		/**
 		 * Add undo-link on archive
@@ -549,29 +569,31 @@ if ( ! class_exists( 'FB_Archive' ) ) {
 		 * @uses   get_post_type_object, current_user_can, get_post_meta, esc_attr
 		 * @access public
 		 * @since  0.0.1
-		 * @param  array string $actions
+		 *
+		 * @param          array string $actions
 		 * @param  integer $id
+		 *
 		 * @return array $actions
 		 */
 		public function add_unset_archive_link( $actions, $id ) {
+
 			global $post, $current_screen, $mode;
 
 			$post_type_object = get_post_type_object( $post->post_type );
 
 			if ( isset( $current_screen->id ) && in_array( $current_screen->id, $this->def_unset_screens )
-				 && current_user_can( $post_type_object->cap->delete_post, $post->ID )
-				) {
-				$archived_post_type = get_post_meta( $id->ID, $this->post_meta_key, TRUE );
-				$actions['archive'] = '<a href="' . $this->get_unset_archive_post_link( $post->ID )
+				&& current_user_can( $post_type_object->cap->delete_post, $post->ID )
+			) {
+				$archived_post_type   = get_post_meta( $id->ID, $this->post_meta_key, TRUE );
+				$actions[ 'archive' ] = '<a href="' . $this->get_unset_archive_post_link( $post->ID )
 					. '&on_archive=1" title="'
 					. esc_attr( __( 'Move this item to the archived post type', self::$textdomain ) )
 					. ': ' . $archived_post_type
-					. '">' . __( 'Restore to', self::$textdomain  ) . ' <code>' . $archived_post_type . '</code></a>';
+					. '">' . __( 'Restore to', self::$textdomain ) . ' <code>' . $archived_post_type . '</code></a>';
 			}
 
 			return $actions;
 		}
-
 
 		/**
 		 * Return link for archive post type
@@ -580,30 +602,35 @@ if ( ! class_exists( 'FB_Archive' ) ) {
 		 * @uses   get_post, get_post_type_object, current_user_can, apply_filters, admin_url, wp_nonce_url
 		 * @access public
 		 * @since  0.0.1
-		 * @param  integer $id, Default is 0
+		 *
+		 * @param  integer $id , Default is 0
+		 *
 		 * @return string
 		 */
 		public function get_archive_post_link( $id = 0 ) {
 
-			if ( ! $post = get_post( $id ) )
+			if ( ! $post = get_post( $id ) ) {
 				return;
+			}
 
 			$post_type_object = get_post_type_object( $post->post_type );
-			if ( ! $post_type_object )
+			if ( ! $post_type_object ) {
 				return;
+			}
 
-			if ( ! current_user_can( $post_type_object->cap->delete_post, $post->ID ) )
+			if ( ! current_user_can( $post_type_object->cap->delete_post, $post->ID ) ) {
 				return;
+			}
 
-			$action = NULL;
+			$action       = NULL;
 			$archive_link = admin_url( 'admin.php?post=' . $post->ID . '&action=archive' );
+
 			return apply_filters(
 				'get_archive_post_link',
 				wp_nonce_url( $archive_link, "$action-{$post->post_type}_{$post->ID}" ),
 				$post->ID
 			);
 		}
-
 
 		/**
 		 * Return link for undo-archive post type
@@ -612,24 +639,30 @@ if ( ! class_exists( 'FB_Archive' ) ) {
 		 * @uses   get_post, get_post_type_object, current_user_can, apply_filters, admin_url, wp_nonce_url
 		 * @access public
 		 * @since  0.0.1
-		 * @param  integer $id, Default is 0
+		 *
+		 * @param  integer $id , Default is 0
+		 *
 		 * @return string
 		 */
 		public function get_unset_archive_post_link( $id = 0 ) {
 
-			if ( ! $post = get_post( $id ) )
+			if ( ! $post = get_post( $id ) ) {
 				return;
+			}
 
 			$post_type_object = get_post_type_object( $post->post_type );
-			if ( ! $post_type_object )
+			if ( ! $post_type_object ) {
 				return;
+			}
 
-			if ( ! current_user_can( $post_type_object->cap->delete_post, $post->ID ) )
+			if ( ! current_user_can( $post_type_object->cap->delete_post, $post->ID ) ) {
 				return;
+			}
 
-			$action = NULL;
-			$archive_link = admin_url( 'admin.php?post=' . $post->ID . '&action=unset_archive' );
+			$action             = NULL;
+			$archive_link       = admin_url( 'admin.php?post=' . $post->ID . '&action=unset_archive' );
 			$archived_post_type = get_post_meta( $id, $this->post_meta_key, TRUE );
+
 			return apply_filters(
 				'get_unset_archive_post_link',
 				wp_nonce_url( $archive_link, "$action-{$archived_post_type}_{$post->ID}" ),
@@ -637,13 +670,12 @@ if ( ! class_exists( 'FB_Archive' ) ) {
 			);
 		}
 
-
 		public function filter_bulk_actions( $actions ) {
 
-			$actions['restore_archive'] = __( 'Restore to Post Type', self::$textdomain );
+			$actions[ 'restore_archive' ] = __( 'Restore to Post Type', self::$textdomain );
+
 			return $actions;
 		}
-
 
 		/**
 		 * Archive post type
@@ -653,22 +685,23 @@ if ( ! class_exists( 'FB_Archive' ) ) {
 		 * @since  0.0.1
 		 * @return void
 		 */
-		public function archive_post_type () {
+		public function archive_post_type() {
 
 			if ( ! (
-				isset( $_GET['post']) ||
-				( isset( $_REQUEST['action']) && 'archive' == $_REQUEST['action'] )
-			) ) {
+				isset( $_GET[ 'post' ] ) || ( isset( $_REQUEST[ 'action' ] ) && 'archive' == $_REQUEST[ 'action' ] )
+			)
+			) {
 				wp_die( __( 'No post to archive has been supplied!', self::$textdomain ) );
 			}
 
-			$id = (int) ( isset( $_GET['post']) ? $_GET['post'] : $_REQUEST['post']);
+			$id = (int) ( isset( $_GET[ 'post' ] ) ? $_GET[ 'post' ] : $_REQUEST[ 'post' ] );
 
 			if ( $id ) {
 				$redirect_post_type = '';
 				$archived_post_type = get_post_type( $id );
-				if ( ! empty( $archived_post_type ) )
+				if ( ! empty( $archived_post_type ) ) {
 					$redirect_post_type = 'post_type=' . $archived_post_type . '&';
+				}
 				// change post type
 				set_post_type( $id, $this->post_type_1 );
 				// add old post_type to post meta
@@ -681,7 +714,6 @@ if ( ! class_exists( 'FB_Archive' ) ) {
 
 		}
 
-
 		/**
 		 * Undo archive post type
 		 *
@@ -690,23 +722,24 @@ if ( ! class_exists( 'FB_Archive' ) ) {
 		 * @since  0.0.1
 		 * @return void
 		 */
-		public function unset_archive_post_type () {
+		public function unset_archive_post_type() {
 
 			if ( ! (
-				isset( $_GET['post']) ||
-				( isset( $_REQUEST['action']) && 'unset_archive' == $_REQUEST['action'] )
-			) ) {
-				wp_die( __('No item to undo archive has been supplied!', self::$textdomain ) );
+				isset( $_GET[ 'post' ] ) || ( isset( $_REQUEST[ 'action' ] ) && 'unset_archive' == $_REQUEST[ 'action' ] )
+			)
+			) {
+				wp_die( __( 'No item to undo archive has been supplied!', self::$textdomain ) );
 			}
 
-			$id = (int) ( isset( $_GET['post']) ? $_GET['post'] : $_REQUEST['post']);
+			$id = (int) ( isset( $_GET[ 'post' ] ) ? $_GET[ 'post' ] : $_REQUEST[ 'post' ] );
 
 			if ( $id ) {
 				$redirect_post_type = '';
 				// get archived post type
 				$archived_post_type = get_post_meta( $id, $this->post_meta_key, TRUE );
-				if ( ! empty( $archived_post_type ) )
+				if ( ! empty( $archived_post_type ) ) {
 					$redirect_post_type = 'post_type=' . $archived_post_type . '&';
+				}
 				// change post type to archived post type
 				set_post_type( $id, $archived_post_type );
 				// remove archived post type on post meta
@@ -720,7 +753,6 @@ if ( ! class_exists( 'FB_Archive' ) ) {
 
 		}
 
-
 		/**
 		 * For the scheduled archiving
 		 *
@@ -729,11 +761,12 @@ if ( ! class_exists( 'FB_Archive' ) ) {
 		 * @since  0.0.1
 		 * @return void
 		 */
-		public function scheduled_archiving () {
+		public function scheduled_archiving() {
+
 			global $wpdb;
 
 			$current = get_site_transient( 'archivise_posts' );
-			if ( ! is_object( $current) ) {
+			if ( ! is_object( $current ) ) {
 				$current = new stdClass;
 			}
 
@@ -743,39 +776,42 @@ if ( ! class_exists( 'FB_Archive' ) ) {
 
 			// convert post type array to string
 			$scheduled_archiving_post_types = NULL;
-			foreach( $this->scheduled_archiving_post_type as $item ){
+			foreach ( $this->scheduled_archiving_post_type as $item ) {
 				$scheduled_archiving_post_types .= "'" . $item . "'" . ', ';
 			}
-			$scheduled_archiving_post_types = substr( $scheduled_archiving_post_types, 0, -strlen(', ') );
-			$archived = $wpdb->get_results(
+			$scheduled_archiving_post_types = substr( $scheduled_archiving_post_types, 0, - strlen( ', ' ) );
+			$archived                       = $wpdb->get_results(
 				"SELECT ID
 				 FROM $wpdb->posts
 				 WHERE post_type IN ( $scheduled_archiving_post_types)
-				 AND post_date < '" . date( 'Y-m-d', strtotime('-' . (int) $this->scheduled_archiving_days .' days') ) . "'",
-				 ARRAY_A
+				 AND post_date < '" . date(
+					'Y-m-d', strtotime( '-' . (int) $this->scheduled_archiving_days . ' days' )
+				) . "'",
+				ARRAY_A
 			);
 			//var_dump( $archived);exit;
-			if ( is_wp_error( $archived ) )
+			if ( is_wp_error( $archived ) ) {
 				return FALSE;
+			}
 
-			if ( ! $archived )
+			if ( ! $archived ) {
 				return FALSE;
+			}
 
 			foreach ( $archived as $value ) {
-				if ( $value['ID'] ) {
-					$archived_post_type = get_post_type( $value['ID'] );
+				if ( $value[ 'ID' ] ) {
+					$archived_post_type = get_post_type( $value[ 'ID' ] );
 					// change post type
-					set_post_type( $value['ID'], $this->post_type_1 );
+					set_post_type( $value[ 'ID' ], $this->post_type_1 );
 					// add old post_type to post meta
-					add_post_meta( $value['ID'], $this->post_meta_key, $archived_post_type, TRUE );
+					add_post_meta( $value[ 'ID' ], $this->post_meta_key, $archived_post_type, TRUE );
 				}
 			}
 
-			$updates = new stdClass();
+			$updates               = new stdClass();
 			$updates->last_checked = time();
 			set_site_transient( 'archivise_posts', $updates );
 		}
-
 
 		/**
 		 * Add Messages for admin notice
@@ -785,35 +821,41 @@ if ( ! class_exists( 'FB_Archive' ) ) {
 		 * @since  0.0.2
 		 * @return void
 		 */
-		public function add_settings_error () {
+		public function add_settings_error() {
 
-			$message_archived = NULL;
+			$message_archived       = NULL;
 			$message_unset_archived = NULL;
 
-			if ( isset( $_REQUEST['archived'] ) ) {
+			if ( isset( $_REQUEST[ 'archived' ] ) ) {
 				$message_archived = sprintf(
-					_n( 'Item moved to the Archive.',
-					'%s items moved to the Archive.',
-					$_REQUEST['archived'],
-					'', self::$textdomain ),
-					number_format_i18n( $_REQUEST['archived'] )
+					_n(
+						'Item moved to the Archive.',
+						'%s items moved to the Archive.',
+						$_REQUEST[ 'archived' ],
+						'', self::$textdomain
+					),
+					number_format_i18n( $_REQUEST[ 'archived' ] )
 				);
-				$ids = isset( $_REQUEST['ids']) ? $_REQUEST['ids'] : 0;
-				$message_archived .= ' <a href="' . $this->get_unset_archive_post_link( $ids) . '">' . __( 'Undo' ) . '</a>';
+				$ids              = isset( $_REQUEST[ 'ids' ] ) ? $_REQUEST[ 'ids' ] : 0;
+				$message_archived .= ' <a href="' . $this->get_unset_archive_post_link( $ids ) . '">' . __(
+						'Undo'
+					) . '</a>';
 			}
 
-			if ( isset( $_REQUEST['unset_archived'] ) ) {
+			if ( isset( $_REQUEST[ 'unset_archived' ] ) ) {
 				$message_unset_archived = sprintf(
-					_n( 'Item moved to the Post Type: %2$s.',
-					'%1$s items moved to the Post Types: %2$s.',
-					$_REQUEST['unset_archived'],
-					'', self::$textdomain ),
-					number_format_i18n( $_REQUEST['unset_archived'] ),
-					'<code>' . get_post_type( $_REQUEST['ids'] ) . '</code>'
+					_n(
+						'Item moved to the Post Type: %2$s.',
+						'%1$s items moved to the Post Types: %2$s.',
+						$_REQUEST[ 'unset_archived' ],
+						'', self::$textdomain
+					),
+					number_format_i18n( $_REQUEST[ 'unset_archived' ] ),
+					'<code>' . get_post_type( $_REQUEST[ 'ids' ] ) . '</code>'
 				);
 			}
 
-			if ( isset( $_REQUEST['archived'] ) && (int) $_REQUEST['archived'] ) {
+			if ( isset( $_REQUEST[ 'archived' ] ) && (int) $_REQUEST[ 'archived' ] ) {
 				add_settings_error(
 					'archived_message',
 					'archived',
@@ -822,7 +864,7 @@ if ( ! class_exists( 'FB_Archive' ) ) {
 				);
 			}
 
-			if ( isset( $_REQUEST['unset_archived'] ) && (int) $_REQUEST['unset_archived'] ) {
+			if ( isset( $_REQUEST[ 'unset_archived' ] ) && (int) $_REQUEST[ 'unset_archived' ] ) {
 				add_settings_error(
 					'unset_archived_message',
 					'unset_archived',
@@ -832,7 +874,6 @@ if ( ! class_exists( 'FB_Archive' ) ) {
 			}
 		}
 
-
 		/**
 		 * Return Admin Notice for inform about actions
 		 *
@@ -841,7 +882,7 @@ if ( ! class_exists( 'FB_Archive' ) ) {
 		 * @since  0.0.1
 		 * @return string
 		 */
-		public function get_admin_notices () {
+		public function get_admin_notices() {
 
 			settings_errors( 'archived_message' );
 			settings_errors( 'unset_archived_message' );
@@ -853,7 +894,9 @@ if ( ! class_exists( 'FB_Archive' ) ) {
 		 * @uses   get_post_meta
 		 * @ccess  public
 		 * @since  0.0.1
+		 *
 		 * @param  array $data
+		 *
 		 * @return string markup with post-id
 		 */
 		public function additional_meta_box( $data ) {
@@ -867,7 +910,6 @@ if ( ! class_exists( 'FB_Archive' ) ) {
 			}
 		}
 
-
 		/**
 		 * Register post type 'snippet'
 		 *
@@ -876,7 +918,7 @@ if ( ! class_exists( 'FB_Archive' ) ) {
 		 * @since   0.0.1
 		 * @return  void
 		 */
-		public function build_post_type () {
+		public function build_post_type() {
 
 			// labels for return post type Snippet
 			$labels = array(
@@ -893,7 +935,7 @@ if ( ! class_exists( 'FB_Archive' ) ) {
 				'parent_item_colon'  => __( 'Parent item in Archive', self::$textdomain )
 			);
 
-			 /**
+			/**
 			 * - label - Name of the post type shown in the menu. Usually plural. If not set, labels['name'] will be used.
 			 * - description - A short descriptive summary of what the post type is. Defaults to blank.
 			 * - public - Whether posts of this type should be shown in the admin UI. Defaults to false.
@@ -928,28 +970,37 @@ if ( ! class_exists( 'FB_Archive' ) ) {
 			);
 
 			$args = array(
-				'labels'             => $labels,
-				'description'        => __( 'Archive post, pages and other post types to a Archive.', self::$textdomain ),
-				'public'             => TRUE,
-				'publicly_queryable' => TRUE,
-				'exclude_from_search'=> TRUE,
-				'show_in_nav_menus'  => FALSE,
-				'menu_position'      => 22,
-				'capabilities'       => $capabilities,
-				'supports'           => array(
-					'title', 'editor', 'comments',
-					'revisions', 'trackbacks', 'author',
-					'excerpt', 'page-attributes',
-					'thumbnail', 'custom-fields',
-					'post-formats', 'page-attributes'
+				'labels'              => $labels,
+				'description'         => __(
+					'Archive post, pages and other post types to a Archive.', self::$textdomain
 				),
-				'taxonomies'         => array( 'category','post_tag' , $this->taxonomy_type_1),
-				'has_archive'        => TRUE
+				'public'              => TRUE,
+				'exclude_from_search' => TRUE,
+				'publicly_queryable'  => TRUE,
+				'show_in_nav_menus'   => FALSE,
+				'menu_position'       => 22,
+				'menu_icon'           => 'dashicons-archive',
+				'capabilities'        => $capabilities,
+				'supports'            => array(
+					'title',
+					'editor',
+					'comments',
+					'revisions',
+					'trackbacks',
+					'author',
+					'excerpt',
+					'page-attributes',
+					'thumbnail',
+					'custom-fields',
+					'post-formats',
+					'page-attributes'
+				),
+				'taxonomies'          => array( 'category', 'post_tag', $this->taxonomy_type_1 ),
+				'has_archive'         => TRUE
 			);
 
 			register_post_type( $this->post_type_1, $args );
 		}
-
 
 		/**
 		 * Remove entry in submenu to add enw archive post type
@@ -958,14 +1009,14 @@ if ( ! class_exists( 'FB_Archive' ) ) {
 		 * @since  0.0.1
 		 * @return void
 		 */
-		public function remove_menu_entry () {
+		public function remove_menu_entry() {
+
 			global $submenu;
 
-			unset( $submenu['edit.php?post_type=archiv'][10] );
-			unset( $submenu['edit.php?post_type=archiv'][15] );
-			unset( $submenu['edit.php?post_type=archiv'][16] );
+			unset( $submenu[ 'edit.php?post_type=archiv' ][ 10 ] );
+			unset( $submenu[ 'edit.php?post_type=archiv' ][ 15 ] );
+			unset( $submenu[ 'edit.php?post_type=archiv' ][ 16 ] );
 		}
-
 
 		/**
 		 * Retunr taxonmoie strings
@@ -973,16 +1024,20 @@ if ( ! class_exists( 'FB_Archive' ) ) {
 		 * @uses    get_object_term_cache, wp_cache_add, wp_get_object_terms, _make_cat_compat
 		 * @access  public
 		 * @since   0.0.1
-		 * @param   string $taxonomy key
-		 * @param   integer $id, Default is FALSE
+		 *
+		 * @param   string  $taxonomy key
+		 * @param   integer $id       , Default is FALSE
+		 *
 		 * @return  array string $categories
 		 */
 		public function get_the_taxonomy( $taxonomy, $id = FALSE ) {
+
 			global $post;
 
 			$id = (int) $id;
-			if ( !$id )
+			if ( ! $id ) {
 				$id = (int) $post->ID;
+			}
 
 			$categories = get_object_term_cache( $id, $taxonomy );
 			if ( FALSE === $categories ) {
@@ -990,18 +1045,18 @@ if ( ! class_exists( 'FB_Archive' ) ) {
 				wp_cache_add( $id, $categories, $taxonomy . '_relationships' );
 			}
 
-			if ( !empty( $categories ) )
+			if ( ! empty( $categories ) ) {
 				usort( $categories, '_usort_terms_by_name' );
-			else
+			} else {
 				$categories = array();
+			}
 
 			foreach ( (array) array_keys( $categories ) as $key ) {
-				_make_cat_compat( $categories[$key] );
+				_make_cat_compat( $categories[ $key ] );
 			}
 
 			return $categories;
 		}
-
 
 		/**
 		 * Add raw in table od custom post type 'snippet'
@@ -1009,12 +1064,16 @@ if ( ! class_exists( 'FB_Archive' ) ) {
 		 * @uses    array_insert
 		 * @access  public
 		 * @since   0.0.1
+		 *
 		 * @param   string $columns
+		 *
 		 * @return  array string $columns
 		 */
-		public function add_columns( $columns) {
+		public function add_columns( $columns ) {
+
 			// add id list
-			$columns['aid'] = __( 'ID', self::$textdomain );
+			$columns[ 'aid' ] = __( 'ID', self::$textdomain );
+
 			/*
 			// remove author list
 			//unset( $columns['author']);
@@ -1027,29 +1086,31 @@ if ( ! class_exists( 'FB_Archive' ) ) {
 			return $columns;
 		}
 
-
 		/**
 		 * Return content of new raw in the table
 		 *
 		 * @uses   get_the_term_list
 		 * @acces  public
 		 * @since  0.0.1
-		 * @param  string $column_name
+		 *
+		 * @param  string  $column_name
 		 * @param  interer $id
+		 *
 		 * @return integer $id
 		 */
-		public function return_custom_columns( $column_name, $id) {
+		public function return_custom_columns( $column_name, $id ) {
 
 			$id = (int) $id;
 
-			switch( $column_name ) {
+			switch ( $column_name ) {
 				case $this->taxonomy_type_1:
 					$structure = '';
 					$taxonomys = get_the_term_list( $id, $this->taxonomy_type_1, '', ', ', '' );
-					if ( isset( $taxonomys[0]) )
+					if ( isset( $taxonomys[ 0 ] ) ) {
 						$structure = $taxonomys;
-					else
+					} else {
 						$structure = __( 'No', self::$textdomain ) . $this->taxonomy_type_1;
+					}
 					$value = $structure;
 					break;
 				case 'aid':
@@ -1057,31 +1118,35 @@ if ( ! class_exists( 'FB_Archive' ) ) {
 					break;
 			}
 
-			if ( isset( $value) )
+			if ( isset( $value ) ) {
 				echo $value;
+			}
 		}
 
-
 		/**
-		* Turn strings into boolean values.
-		*
-		* This is needed because user input when using shortcodes
-		* is automatically turned into a string. So, we'll take those
-		* values and convert them.
-		*
-		* Taken from Justin Tadlock’s Plugin “Template Tag Shortcodes”
-		* @see http://justintadlock.com/?p=1539
-		* @author Justin Tadlock
-		* @param string $value String to convert to a boolean.
-		* @return bool|string
-		*/
+		 * Turn strings into boolean values.
+		 *
+		 * This is needed because user input when using shortcodes
+		 * is automatically turned into a string. So, we'll take those
+		 * values and convert them.
+		 *
+		 * Taken from Justin Tadlock’s Plugin “Template Tag Shortcodes”
+		 *
+		 * @see    http://justintadlock.com/?p=1539
+		 * @author Justin Tadlock
+		 *
+		 * @param string $value String to convert to a boolean.
+		 *
+		 * @return bool|string
+		 */
 		public static function string_to_bool( $value ) {
+
 			if ( is_numeric( $value ) ) {
 				return '0' == $value ? FALSE : TRUE;
 			}
 
 			// Neither 'true' nor 'false' nor 'null'
-			if ( ! isset ( $value[3] ) ) {
+			if ( ! isset ( $value[ 3 ] ) ) {
 				return $value;
 			}
 
@@ -1098,56 +1163,60 @@ if ( ! class_exists( 'FB_Archive' ) ) {
 			return $value;
 		}
 
-
 		/**
 		 * hook inside the rows of wp
 		 *
 		 * @uses   get_post_type_object
 		 * @access public
 		 * @since  0.0.1
-		 * @param  array string $actions
+		 *
+		 * @param          array string $actions
 		 * @param  integer $id
+		 *
 		 * @return array $actions
 		 */
-		public function add_value_to_row () {
+		public function add_value_to_row() {
 
 			// on screen: edit-snippets
 			add_action( 'manage_edit-' . $this->post_type_1 . '_columns', array( &$this, 'add_columns' ) );
 			add_filter( 'manage_posts_custom_column', array( &$this, 'return_custom_columns' ), 10, 3 );
 		}
 
-
 		/**
 		 * Insert array on position
 		 *
 		 * @uses
 		 * @since  0.0.1
+		 *
 		 * @param  $array
 		 * @param  $position
 		 * @param  $insert_array
+		 *
 		 * @return void
 		 */
 		public function array_insert( &$array, $position, $insert_array ) {
 
 			$first_array = array_splice( $array, 0, $position );
-			$array = array_merge( $first_array, $insert_array, $array );
+			$array       = array_merge( $first_array, $insert_array, $array );
 		}
-
 
 		/**
 		 * Get the help
 		 *
 		 * @uses
 		 * @since  0.0.1
+		 *
 		 * @param  $array
 		 * @param  $position
 		 * @param  $insert_array
+		 *
 		 * @return string $contextual_help
 		 */
 		public function add_help_text( $contextual_help, $screen_id, $screen ) {
 
-			if ( ! isset( $screen->post_type ) || $this->post_type_1 !== $screen->post_type )
+			if ( ! isset( $screen->post_type ) || $this->post_type_1 !== $screen->post_type ) {
 				return $contextual_help;
+			}
 
 			$contextual_help =
 				'<p>' .
@@ -1157,88 +1226,100 @@ if ( ! class_exists( 'FB_Archive' ) ) {
 			return $contextual_help;
 		}
 
-
 		/**
 		 * Add to Archive to qury
 		 *
 		 * @uses   query_vars, is_admin, is_preview
 		 * @since  0.0.4
-		 * @param  array  $query
+		 *
+		 * @param  array $query
+		 *
 		 * @return string $query
 		 */
 		public function add_to_query( $query ) {
 
-			if ( is_admin() || is_preview() )
+			if ( is_admin() || is_preview() ) {
 				return;
+			}
 
-			if ( ! isset( $query -> query_vars['suppress_filters'] ) || FALSE == $query -> query_vars['suppress_filters'] )
-				$query -> set( 'post_type', array( 'post', $this -> post_type_1 ) );
+			if ( ! isset( $query->query_vars[ 'suppress_filters' ] ) || FALSE == $query->query_vars[ 'suppress_filters' ] ) {
+				$query->set( 'post_type', array( 'post', $this->post_type_1 ) );
+			}
 
 			return $query;
 		}
-
 
 		/**
 		 * Add shortcode, example: [snippet id=12]
 		 *
 		 * @uses   shortcode_atts
 		 * @since  0.0.1
+		 *
 		 * @param  array  $atts
 		 * @param  string $content
+		 *
 		 * @return string | array $archived_posts
 		 */
 		public function add_shortcode( $atts, $content = NULL ) {
+
 			global $wpdb;
 
 			extract(
-				shortcode_atts( array(
-					'count'         => -1, // count or -1 for all posts
-					'post_status'   => 'publish', // status or all for all posts
-					'echo'          => TRUE, // echo or give an array for use external
-					'return_markup' => 'ul', // markup before echo title, content
-					'title_markup'  => 'li', // markup before item
-					'content'       => FALSE, // view also content?
-					'debug'         => FALSE // debug mor vor view an array
-				), $atts
-			) );
+				shortcode_atts(
+					array(
+						'count'         => - 1, // count or -1 for all posts
+						'post_status'   => 'publish', // status or all for all posts
+						'echo'          => TRUE, // echo or give an array for use external
+						'return_markup' => 'ul', // markup before echo title, content
+						'title_markup'  => 'li', // markup before item
+						'content'       => FALSE, // view also content?
+						'debug'         => FALSE // debug mor vor view an array
+					), $atts
+				)
+			);
 
-			if ( ! is_numeric($count) )
-				$message = wp_sprintf( __( 'The Snippet %s is non integer value or the title of this Snippet!', self::$textdomain ), esc_html($id) );
+			if ( ! is_numeric( $count ) ) {
+				$message = wp_sprintf(
+					__( 'The Snippet %s is non integer value or the title of this Snippet!', self::$textdomain ),
+					esc_html( $id )
+				);
+			}
 
-			if ( ! empty($message) && current_user_can('read') ) {
+			if ( ! empty( $message ) && current_user_can( 'read' ) ) {
 				$message = '<div id="message" class="error fade" style="background:red;"><p>' . $message . '</p></div>';
 				add_action( 'wp_footer', create_function( '', "echo '$message';" ) );
 			}
 
 			$args = array(
-				'post_type' => $this -> post_type_1,
-				'post_status' => $post_status,
+				'post_type'      => $this->post_type_1,
+				'post_status'    => $post_status,
 				'posts_per_page' => $count
 			);
 
 			$archived_posts = '';
 
 			$posts = new WP_Query( $args );
-			if ( $posts -> have_posts() ) {
+			if ( $posts->have_posts() ) {
 
-				while ( $posts -> have_posts() ) {
-						$posts -> the_post();
-						$post_id  = get_the_ID();
+				while ( $posts->have_posts() ) {
+					$posts->the_post();
+					$post_id = get_the_ID();
 					if ( $echo ) {
 						$archived_posts .= '<' . $title_markup . '><a href="' .
-						get_permalink($post_id) . '" title="' . get_the_title() . '" >' .
-						get_the_title() . '</a>';
-						if ( $content )
+							get_permalink( $post_id ) . '" title="' . get_the_title() . '" >' .
+							get_the_title() . '</a>';
+						if ( $content ) {
 							$archived_posts .= apply_filters( 'the_content', get_the_content() );
+						}
 						$archived_posts .= '</' . $title_markup . '>';
 					} else {
 						(array) $archived_post = new stdClass();
-						$archived_post -> post_id   = $post_id;
-						$archived_post -> title     = get_the_title();
-						$archived_post -> permalink = get_permalink($post_id);
-						$archived_post -> content   = apply_filters( 'the_content', get_the_content() );
+						$archived_post->post_id   = $post_id;
+						$archived_post->title     = get_the_title();
+						$archived_post->permalink = get_permalink( $post_id );
+						$archived_post->content   = apply_filters( 'the_content', get_the_content() );
 
-						$archived_posts[] = $archived_post;
+						$archived_posts[ ] = $archived_post;
 					}
 				}
 
@@ -1247,14 +1328,14 @@ if ( ! class_exists( 'FB_Archive' ) ) {
 			wp_reset_query();
 
 			$archived_posts = '<' . $return_markup . '>' . $archived_posts . '</' . $return_markup . '>';
-			$archived_posts = apply_filters( 'fb_get_archive', $archived_posts ) ;
+			$archived_posts = apply_filters( 'fb_get_archive', $archived_posts );
 
-			if ($debug)
+			if ( $debug ) {
 				var_dump( $archived_posts );
-			else
+			} else {
 				return $archived_posts;
+			}
 		}
-
 
 	} // end class
 
