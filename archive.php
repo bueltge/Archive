@@ -9,7 +9,7 @@
  * Version: 0.0.5
  * Licence: GPLv2+
  * Author URI: http://bueltge.de
- * Last Change: 05/22/2014
+ * Last Change: 2015-01-09
  */
 
 /**
@@ -438,9 +438,6 @@ if ( ! class_exists( 'FB_Archive' ) ) {
 
 			$post_type = $this->get_post_type();
 
-			wp_register_style( 'archive-page', plugins_url( 'css/settings.css', __FILE__ ) );
-			wp_register_style( 'archive-structure-page', plugins_url( 'css/structures.css', __FILE__ ) );
-
 			add_filter( 'post_row_actions', array( $this, 'add_archive_link' ), 10, 2 );
 			add_filter( 'page_row_actions', array( $this, 'add_archive_link' ), 10, 2 );
 			add_action( 'admin_action_archive', array( $this, 'archive_post_type' ) );
@@ -468,13 +465,13 @@ if ( ! class_exists( 'FB_Archive' ) ) {
 				'archiv&amp;page=archive_settings_group',
 				$this->post_type_1
 			);
-			if ( in_array( $post_type, $defined_pages ) ) {
-				wp_enqueue_style( 'archive-page' );
-			} elseif ( 'taxonomy=' . $this->taxonomy_type_1 . '&amp;' . $this->post_type_1 == $post_type ) {
-				wp_enqueue_style( 'archive-structure-page' );
-			}
 		}
 
+
+		public function enqueue_style() {
+
+
+		}
 		/**
 		 * Enqueue scripts in WP
 		 *
