@@ -147,7 +147,7 @@ if ( ! class_exists( 'FB_Archive' ) ) {
 			$this->localize_plugin();
 
 			// on activation of the plugin add cap to roles
-			register_activation_hook( __FILE__, array( &$this, 'on_activate' ) );
+			register_activation_hook( __FILE__, array( $this, 'on_activate' ) );
 			// on uninstall remove capability from roles
 			register_uninstall_hook( __FILE__, array( 'FB_Archive', 'on_deactivate' ) );
 
@@ -935,6 +935,11 @@ if ( ! class_exists( 'FB_Archive' ) ) {
 				'taxonomies'          => array( 'category', 'post_tag', $this->taxonomy_type_1 ),
 				'has_archive'         => TRUE
 			);
+
+			/**
+			 * Filter to change the default values to create the custom post type for the Archive
+			 */
+			$args = apply_filters( 'archive_post_type_arguments', $args );
 
 			register_post_type( $this->post_type_1, $args );
 		}
