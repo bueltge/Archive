@@ -55,6 +55,12 @@ The plugin comes with various translations, please refer to the [WordPress Codex
 2. In Archive, also possible to restore
 
 == Changelog ==
+= 1.0.0 (2015-01-16) =
+* Remove custom function to check for right post type, fixes error notice since WP 4.0
+* Remove custom css, switch to Dashicon
+* Enhance Shortcode parameters
+* Add filter hook `archive_post_type_arguments` to change default parameters on create custom post type archiv
+
 = 0.0.5 =
 * Fix php notices
 
