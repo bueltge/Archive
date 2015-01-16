@@ -1219,13 +1219,6 @@ if ( ! class_exists( 'FB_Archive' ) ) {
 				)
 			);
 
-			if ( ! is_numeric( $a[ 'count' ] ) ) {
-				$message = wp_sprintf(
-					__( 'The Snippet %s is non integer value or the title of this Snippet!', self::$textdomain ),
-					esc_html( $id )
-				);
-			}
-
 			if ( ! empty( $message ) && current_user_can( 'read' ) ) {
 				$message = '<div id="message" class="error fade" style="background:red;"><p>' . $message . '</p></div>';
 				add_action( 'wp_footer', create_function( '', "echo '$message';" ) );
