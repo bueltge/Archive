@@ -365,68 +365,6 @@ if ( ! class_exists( 'FB_Archive' ) ) {
 		}
 
 		/**
-		 * Return post type
-		 *
-		 * @uses   get_post_type_object, get_post
-		 * @access public
-		 * @since  0.0.1
-		 * @return string $post_type
-		 */
-		private function get_post_type() {
-
-			if ( ! function_exists( 'get_post_type_object' ) ) {
-				return NULL;
-			}
-
-			if ( isset( $_GET[ 'post' ] ) ) {
-				$post_id = (int) $_GET[ 'post' ];
-			} elseif ( isset( $_POST[ 'post_ID' ] ) ) {
-				$post_id = (int) $_POST[ 'post_ID' ];
-			} else {
-				$post_id = 0;
-			}
-
-			$post             = NULL;
-			$post_type_object = NULL;
-			$post_type        = NULL;
-			if ( $post_id ) {
-				$post = get_post( $post_id );
-				if ( $post ) {
-					$post_type_object = get_post_type_object( $post->post_type );
-					if ( $post_type_object && ! empty( $post->post_type ) ) {
-						$post_type      = $post->post_type;
-						$current_screen = get_current_screen();
-						if (
-							empty( $current_screen->post_type ) || $current_screen->post_type !== $post->post_type
-						) {
-							$current_screen            = new stdClass();
-							$current_screen->post_type = &$post->post_type;
-							$current_screen->id        = $current_screen->post_type;
-						}
-					}
-				}
-			} elseif ( isset( $_POST[ 'post_type' ] ) ) {
-				$post_type_object = get_post_type_object( $_POST[ 'post_type' ] );
-				if ( $post_type_object && ! empty( $post->post_type ) ) {
-					$post_type      = $post_type_object->name;
-					$current_screen = get_current_screen();
-					if (
-						empty( $current_screen->post_type ) || $current_screen->post_type !== $post->post_type
-					) {
-						$current_screen            = new stdClass();
-						$current_screen->post_type = $post_type;
-						$current_screen->id        = $current_screen->post_type;
-					}
-				}
-			} elseif ( isset( $_SERVER[ 'QUERY_STRING' ] ) ) {
-				$post_type = esc_attr( $_SERVER[ 'QUERY_STRING' ] );
-				$post_type = str_replace( 'post_type=', '', $post_type );
-			}
-
-			return $post_type;
-		}
-
-		/**
 		 * On admin init
 		 *
 		 * @uses   wp_register_style, wp_enqueue_style, add_action, add_filter, add_meta_box
@@ -435,8 +373,6 @@ if ( ! class_exists( 'FB_Archive' ) ) {
 		 * @return void
 		 */
 		public function on_admin_init() {
-
-			$post_type = $this->get_post_type();
 
 			add_filter( 'post_row_actions', array( $this, 'add_archive_link' ), 10, 2 );
 			add_filter( 'page_row_actions', array( $this, 'add_archive_link' ), 10, 2 );
@@ -450,15 +386,7 @@ if ( ! class_exists( 'FB_Archive' ) ) {
 
 			$this->add_value_to_row();
 
-			if ( $this->post_type_1 == $post_type ) {
-				// add meta box with ID
-				add_meta_box(
-					'id',
-					__( 'Archive Info', self::$textdomain ),
-					array( &$this, 'additional_meta_box' ),
-					$this->post_type_1, 'side', 'high'
-				);
-			}
+			add_action( 'add_meta_boxes', array( $this, 'add_meta_boxes' ) );
 
 			$defined_pages = array(
 				'archiv&amp;page=archive_settings_group&amp;settings-updated=true',
@@ -489,12 +417,33 @@ if ( ! class_exists( 'FB_Archive' ) ) {
 				return NULL;
 			}
 
-			wp_enqueue_script(
+			$suffix = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '.dev' : '';
+
+			wp_register_script(
 				'jquery-archive-script',
 				WP_PLUGIN_URL . '/' . dirname( plugin_basename( __FILE__ ) ) . '/js/script' . $suffix . '.js',
 				array( 'jquery' )
 			);
+			wp_enqueue_script( 'jquery-archive-script' );
 
+		}
+
+		/**
+		 * Add meta box to post type Archive with information about ID and old post type
+		 *
+		 * @since  2015-01-16
+		 * @return void
+		 */
+		public function add_meta_boxes() {
+
+			// add meta box with ID
+			add_meta_box(
+				'id',
+				__( 'Archive Info', self::$textdomain ),
+				array( $this, 'additional_meta_box' ),
+				$this->post_type_1,
+				'side', 'high'
+			);
 		}
 
 		/**
