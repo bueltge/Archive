@@ -176,7 +176,7 @@ if ( ! class_exists( 'FB_Archive' ) ) {
 				add_action( 'pre_get_posts', array( $this, 'add_to_query' ) );
 			}
 			// add shortcode for list items of archive
-			add_shortcode( 'archive', array( &$this, 'add_shortcode' ) );
+			add_shortcode( 'archive', array( $this, 'add_shortcode' ) );
 		}
 
 		/**
@@ -245,7 +245,7 @@ if ( ! class_exists( 'FB_Archive' ) ) {
 				require_once( ABSPATH . '/wp-admin/includes/plugin.php' );
 			}
 
-			$plugin_data  = get_plugin_data( __FILE__ );
+			$plugin_data = get_plugin_data( __FILE__ );
 
 			return empty ( $plugin_data[ $value ] ) ? '' : $plugin_data[ $value ];
 		}
@@ -346,7 +346,7 @@ if ( ! class_exists( 'FB_Archive' ) ) {
 		/**
 		 * Disable plugin update notifications
 		 *
-		 * @param $value
+		 * @param              $value
 		 *
 		 * @since 0.0.1
 		 * @link  http://dd32.id.au/2011/03/01/disable-plugin-update-notification-for-a-specific-plugin-in-wordpress-3-1/
@@ -467,11 +467,6 @@ if ( ! class_exists( 'FB_Archive' ) ) {
 			);
 		}
 
-
-		public function enqueue_style() {
-
-
-		}
 		/**
 		 * Enqueue scripts in WP
 		 *
@@ -485,18 +480,21 @@ if ( ! class_exists( 'FB_Archive' ) ) {
 		 */
 		public function enqueue_script( $pagehook ) {
 
-			$suffix = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '.dev' : '';
-
-			$archive_pages     = array( 'edit.php' );
-			$archive_post_type = array( $this->post_type_1, $this->post_type_1 . '&debug =true' );
-
-			if ( in_array( $pagehook, $archive_pages ) && in_array( $this->get_post_type(), $archive_post_type ) ) {
-				wp_enqueue_script(
-					'jquery-archive-script',
-					WP_PLUGIN_URL . '/' . dirname( plugin_basename( __FILE__ ) ) . '/js/script' . $suffix . '.js',
-					array( 'jquery' )
-				);
+			if ( 'edit.php' !== $pagehook ) {
+				return NULL;
 			}
+
+			$screen = get_current_screen();
+			if ( $this->post_type_1 !== $screen->post_type ) {
+				return NULL;
+			}
+
+			wp_enqueue_script(
+				'jquery-archive-script',
+				WP_PLUGIN_URL . '/' . dirname( plugin_basename( __FILE__ ) ) . '/js/script' . $suffix . '.js',
+				array( 'jquery' )
+			);
+
 		}
 
 		/**
@@ -1015,7 +1013,7 @@ if ( ! class_exists( 'FB_Archive' ) ) {
 		 * @access  public
 		 * @since   0.0.1
 		 *
-		 * @param   string $taxonomy key
+		 * @param   string   $taxonomy key
 		 * @param   bool|int $id       , Default is FALSE
 		 *
 		 * @return  array string $categories
@@ -1079,9 +1077,9 @@ if ( ! class_exists( 'FB_Archive' ) ) {
 		/**
 		 * Return content of new raw in the table
 		 *
-		 * @uses   get_the_term_list
+		 * @uses    get_the_term_list
 		 * @access  public
-		 * @since  0.0.1
+		 * @since   0.0.1
 		 *
 		 * @param  string  $column_name
 		 * @param  integer $id
@@ -1244,7 +1242,7 @@ if ( ! class_exists( 'FB_Archive' ) ) {
 		}
 
 		/**
-		 * Add shortcode, example: [snippet id=12]
+		 * Add shortcode, example: [archive]
 		 *
 		 * @uses   shortcode_atts
 		 * @since  0.0.1
@@ -1257,20 +1255,22 @@ if ( ! class_exists( 'FB_Archive' ) ) {
 		public function add_shortcode( $atts, $content = NULL ) {
 
 			extract(
-				shortcode_atts(
+				$a = shortcode_atts(
 					array(
 						'count'         => - 1, // count or -1 for all posts
+						//@TODO ausprägen
+						'category'      => '',
 						'post_status'   => 'publish', // status or all for all posts
 						'echo'          => TRUE, // echo or give an array for use external
 						'return_markup' => 'ul', // markup before echo title, content
 						'title_markup'  => 'li', // markup before item
 						'content'       => FALSE, // view also content?
-						'debug'         => FALSE // debug mor vor view an array
+						'debug'         => FALSE, // debug mor vor view an array
 					), $atts
 				)
 			);
 
-			if ( ! is_numeric( $count ) ) {
+			if ( ! is_numeric( $a[ 'count' ] ) ) {
 				$message = wp_sprintf(
 					__( 'The Snippet %s is non integer value or the title of this Snippet!', self::$textdomain ),
 					esc_html( $id )
@@ -1284,8 +1284,8 @@ if ( ! class_exists( 'FB_Archive' ) ) {
 
 			$args = array(
 				'post_type'      => $this->post_type_1,
-				'post_status'    => $post_status,
-				'posts_per_page' => $count
+				'post_status'    => $a[ 'post_status' ],
+				'posts_per_page' => $a[ 'count' ],
 			);
 
 			$archived_posts = '';
@@ -1296,14 +1296,14 @@ if ( ! class_exists( 'FB_Archive' ) ) {
 				while ( $posts->have_posts() ) {
 					$posts->the_post();
 					$post_id = get_the_ID();
-					if ( $echo ) {
-						$archived_posts .= '<' . $title_markup . '><a href="' .
+					if ( $a[ 'echo' ] ) {
+						$archived_posts .= '<' . $a[ 'title_markup' ] . '><a href="' .
 							get_permalink( $post_id ) . '" title="' . get_the_title() . '" >' .
 							get_the_title() . '</a>';
 						if ( $content ) {
 							$archived_posts .= apply_filters( 'the_content', get_the_content() );
 						}
-						$archived_posts .= '</' . $title_markup . '>';
+						$archived_posts .= '</' . $a[ 'title_markup' ] . '>';
 					} else {
 						(array) $archived_post = new stdClass();
 						$archived_post->post_id   = $post_id;
@@ -1319,10 +1319,10 @@ if ( ! class_exists( 'FB_Archive' ) ) {
 
 			wp_reset_query();
 
-			$archived_posts = '<' . $return_markup . '>' . $archived_posts . '</' . $return_markup . '>';
+			$archived_posts = '<' . $a[ 'return_markup' ] . '>' . $archived_posts . '</' . $a[ 'return_markup' ] . '>';
 			$archived_posts = apply_filters( 'fb_get_archive', $archived_posts );
 
-			if ( $debug ) {
+			if ( $a[ 'debug' ] ) {
 				var_dump( $archived_posts );
 			} else {
 				return $archived_posts;

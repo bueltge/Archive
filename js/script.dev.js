@@ -1,3 +1,3 @@
 jQuery(document).ready( function ($) {
-	$('.wrap h2 a.button.add-new-h2').remove();
+	$('.wrap h2 a.add-new-h2').remove();
 } );
