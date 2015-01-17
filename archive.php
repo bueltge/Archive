@@ -217,7 +217,11 @@ if ( ! class_exists( 'FB_Archive' ) ) {
 		 */
 		public function localize_plugin() {
 
-			load_plugin_textdomain( self::$textdomain, FALSE, dirname( plugin_basename( __FILE__ ) ) . '/languages' );
+			load_plugin_textdomain(
+				self::$textdomain,
+				FALSE,
+				dirname( plugin_basename( __FILE__ ) ) . '/languages'
+			);
 		}
 
 		/**
@@ -232,12 +236,13 @@ if ( ! class_exists( 'FB_Archive' ) ) {
 		 *
 		 * @return string
 		 */
-		public function get_plugin_data( $value = 'Version' ) {
+		public static function get_plugin_data( $value = 'Version' ) {
 
 			static $plugin_data = array();
 
 			// fetch the data just once.
 			if ( isset( $plugin_data[ $value ] ) ) {
+
 				return $plugin_data[ $value ];
 			}
 
@@ -246,8 +251,9 @@ if ( ! class_exists( 'FB_Archive' ) ) {
 			}
 
 			$plugin_data = get_plugin_data( __FILE__ );
+			$plugin_data = empty( $plugin_data[ $value ] ) ? '' : $plugin_data[ $value ];
 
-			return empty ( $plugin_data[ $value ] ) ? '' : $plugin_data[ $value ];
+			return $plugin_data;
 		}
 
 		/**
@@ -387,12 +393,6 @@ if ( ! class_exists( 'FB_Archive' ) ) {
 			$this->add_value_to_row();
 
 			add_action( 'add_meta_boxes', array( $this, 'add_meta_boxes' ) );
-
-			$defined_pages = array(
-				'archiv&amp;page=archive_settings_group&amp;settings-updated=true',
-				'archiv&amp;page=archive_settings_group',
-				$this->post_type_1
-			);
 		}
 
 		/**
@@ -1271,9 +1271,9 @@ if ( ! class_exists( 'FB_Archive' ) ) {
 
 			if ( $a[ 'debug' ] ) {
 				var_dump( $archived_posts );
-			} else {
-				return $archived_posts;
 			}
+
+			return $archived_posts;
 		}
 
 	} // end class
