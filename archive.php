@@ -1218,7 +1218,8 @@ class FB_Archive {
 			$a = shortcode_atts(
 				array(
 					'count'         => - 1, // count or -1 for all posts
-					'category'      => '',
+					'category'      => '', // Show posts associated with certain categories.
+					'tag'           => '', // Show posts associated with certain tags.
 					'post_status'   => 'publish', // status or all for all posts
 					'echo'          => TRUE, // echo or give an array for use external
 					'return_markup' => 'ul', // markup before echo title, content
@@ -1233,7 +1234,8 @@ class FB_Archive {
 			'post_type'      => $this->post_type_1,
 			'post_status'    => $a[ 'post_status' ],
 			'posts_per_page' => $a[ 'count' ],
-			'cat' => $a[ 'category' ],
+			'cat'            => $a[ 'category' ],
+			'tag'            => $a[ 'tag' ],
 		);
 
 		$archived_posts = '';
@@ -1256,12 +1258,12 @@ class FB_Archive {
 					$archived_posts .= '</' . $a[ 'title_markup' ] . '>';
 				} else {
 					//(array) $archived_post = new stdClass();
-					$archived_post = array();
+					$archived_post            = array();
 					$archived_post->post_id   = $post_id;
 					$archived_post->title     = get_the_title();
 					$archived_post->permalink = get_permalink( $post_id );
 					$archived_post->content   = apply_filters( 'the_content', get_the_content() );
-					$archived_posts[] = $archived_post;
+					$archived_posts[ ]        = $archived_post;
 				}
 			}
 
