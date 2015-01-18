@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Archive\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: Sun Jan 18 2015 21:43:08 GMT+0100 (CET)\n"
+"PO-Revision-Date: Sun Jan 18 2015 21:46:14 GMT+0100 (CET)\n"
 "Last-Translator: admin <frank@bueltge.de>\n"
 "Language-Team: \n"
 "Language: German\n"
@@ -55,7 +55,7 @@ msgstr "Bewege diesen Eintrag in das Archiv"
 #. translators: plugin header field 'Name'
 #: ../archive.php:455 ../archive.php:828 ../archive.php:829
 msgid "Archive"
-msgstr "Archive - Archiv"
+msgstr "Archiv"
 
 #: ../archive.php:494
 msgid "Move this item to the archived post type"
@@ -89,8 +89,8 @@ msgstr "Leider finde ich keine die Post-ID"
 #, php-format
 msgid "Item moved to the Archive."
 msgid_plural "%s items moved to the Archive."
-msgstr[0] "Beiträg nun im Archiv abgelegt."
-msgstr[1] "%s Beiträge im Archiv abgelegt."
+msgstr[0] "Eintrag nun im Archiv abgelegt."
+msgstr[1] "%s Einträge im Archiv abgelegt."
 
 #: ../archive.php:743
 msgid "Undo"
@@ -100,10 +100,8 @@ msgstr "Rückgängig"
 #, php-format
 msgid "Item moved to the Post Type: %2$s."
 msgid_plural "%1$s items moved to the Post Types: %2$s."
-msgstr[0] "Beiträg im Post Type: %2$s abgelegt."
-msgstr[1] ""
-"%1$s \n"
-"Beiträge im Post Type: %2$s abgelegt."
+msgstr[0] "Eintrag im Post Type: %2$s abgelegt."
+msgstr[1] "%1$s Einträge im Post Type: %2$s abgelegt."
 
 #: ../archive.php:808
 msgid "ID of this archived item:"
