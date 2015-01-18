@@ -69,7 +69,7 @@ class FB_Archive {
 	 *
 	 * @see http://codex.wordpress.org/Plugin_API/Admin_Screen_Reference
 	 */
-	public $def_archive_screens = ''; //array( 'edit-post', 'edit-page' );
+	public $def_archive_screens = array( 'edit-post', 'edit-page' );
 
 	/**
 	 * Keys for view undo-archive-link on defined screens
@@ -455,22 +455,20 @@ class FB_Archive {
 	 */
 	public function add_archive_link( $actions, $id ) {
 
-		global $post, $current_screen;
+		$screen = get_current_screen();
 
-		$post_type_object = get_post_type_object( $post->post_type );
-		//var_dump( $current_screen);
-		if ( is_array( $this->def_archive_screens )
-			&& ! in_array(
-				$current_screen->id, $this->def_archive_screens
-			)
-		) {
-			return $actions;
-		}
-		if ( ! current_user_can( $post_type_object->cap->delete_post, $post->ID ) ) {
+		// Not enough rights
+		$post_type_object = get_post_type_object( $screen->post_type );
+		if ( ! current_user_can( $post_type_object->cap->delete_post, $id->ID ) ) {
 			return $actions;
 		}
 
-		$actions[ 'archive' ] = '<a href="' . $this->get_archive_post_link( $post->ID )
+		// Not on the right screen
+		if ( ! in_array( $screen->id, $this->def_archive_screens ) ) {
+			return $actions;
+		}
+
+		$actions[ 'archive' ] = '<a href="' . $this->get_archive_post_link( $id->ID )
 			. '" title="'
 			. esc_attr( __( 'Move this item to the Archive', self::$textdomain ) )
 			. '">' . __( 'Archive', self::$textdomain ) . '</a>';
@@ -1220,7 +1218,6 @@ class FB_Archive {
 			$a = shortcode_atts(
 				array(
 					'count'         => - 1, // count or -1 for all posts
-					//@TODO ausprägen
 					'category'      => '',
 					'post_status'   => 'publish', // status or all for all posts
 					'echo'          => TRUE, // echo or give an array for use external
@@ -1232,15 +1229,11 @@ class FB_Archive {
 			)
 		);
 
-		if ( ! empty( $message ) && current_user_can( 'read' ) ) {
-			$message = '<div id="message" class="error fade" style="background:red;"><p>' . $message . '</p></div>';
-			add_action( 'wp_footer', create_function( '', "echo '$message';" ) );
-		}
-
 		$args = array(
 			'post_type'      => $this->post_type_1,
 			'post_status'    => $a[ 'post_status' ],
 			'posts_per_page' => $a[ 'count' ],
+			'cat' => $a[ 'category' ],
 		);
 
 		$archived_posts = '';
@@ -1249,8 +1242,10 @@ class FB_Archive {
 		if ( $posts->have_posts() ) {
 
 			while ( $posts->have_posts() ) {
+
 				$posts->the_post();
 				$post_id = get_the_ID();
+
 				if ( $a[ 'echo' ] ) {
 					$archived_posts .= '<' . $a[ 'title_markup' ] . '><a href="' .
 						get_permalink( $post_id ) . '" title="' . get_the_title() . '" >' .
@@ -1260,14 +1255,13 @@ class FB_Archive {
 					}
 					$archived_posts .= '</' . $a[ 'title_markup' ] . '>';
 				} else {
-					// @ToDo. Säubern
 					//(array) $archived_post = new stdClass();
+					$archived_post = array();
 					$archived_post->post_id   = $post_id;
 					$archived_post->title     = get_the_title();
 					$archived_post->permalink = get_permalink( $post_id );
 					$archived_post->content   = apply_filters( 'the_content', get_the_content() );
-
-					$archived_posts[ ] = $archived_post;
+					$archived_posts[] = $archived_post;
 				}
 			}
 
