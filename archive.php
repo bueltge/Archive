@@ -1201,15 +1201,15 @@ class FB_Archive {
 		extract(
 			$a = shortcode_atts(
 				array(
-					'count'         => - 1, // count or -1 for all posts
+					'count'         => -1, // count or -1 for all posts
 					'category'      => '', // Show posts associated with certain categories.
 					'tag'           => '', // Show posts associated with certain tags.
 					'post_status'   => 'publish', // status or all for all posts
-					'echo'          => TRUE, // echo or give an array for use external
+					'echo'          => 'true', // echo or give an array for use external
 					'return_markup' => 'ul', // markup before echo title, content
 					'title_markup'  => 'li', // markup before item
-					'content'       => FALSE, // view also content?
-					'debug'         => FALSE, // debug mor vor view an array
+					'content'       => 'false', // view also content?
+					'debug'         => 'false', // debug mor vor view an array
 				), $atts
 			)
 		);
@@ -1232,11 +1232,11 @@ class FB_Archive {
 				$posts->the_post();
 				$post_id = get_the_ID();
 
-				if ( $a[ 'echo' ] ) {
+				if ( 'true' === $a[ 'echo' ] ) {
 					$archived_posts .= '<' . $a[ 'title_markup' ] . '><a href="' .
 						get_permalink( $post_id ) . '" title="' . get_the_title() . '" >' .
 						get_the_title() . '</a>';
-					if ( $content ) {
+					if ( 'true' === $a[ 'content' ] ) {
 						$archived_posts .= apply_filters( 'the_content', get_the_content() );
 					}
 					$archived_posts .= '</' . $a[ 'title_markup' ] . '>';
