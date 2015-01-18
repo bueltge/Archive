@@ -1,206 +1,206 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: \n"
+"Project-Id-Version: Archive\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: \n"
-"Last-Translator: \n"
+"PO-Revision-Date: Sun Jan 18 2015 21:43:08 GMT+0100 (CET)\n"
+"Last-Translator: admin <frank@bueltge.de>\n"
 "Language-Team: \n"
+"Language: German\n"
+"Plural-Forms: nplurals=2; plural=n != 1\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Poedit-SourceCharset: utf-8\n"
 "X-Poedit-Language: \n"
 "X-Poedit-Country: \n"
-"X-Poedit-SourceCharset: utf-8\n"
-"X-Poedit-KeywordsList: __;_e;__ngettext:1,2;_n:1,2;__ngettext_noop:1,2;_n_noop:1,2;_c,_nc:4c,1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;_nx_noop:4c,1,2;\n"
+"X-Poedit-KeywordsList: _:1;gettext:1;dgettext:2;ngettext:1,2;dngettext:2,3;"
+"__:1;_e:1;_c:1;_n:1,2;_n_noop:1,2;_nc:1,2;__ngettext:1,2;__ngettext_noop:1,2;"
+"_x:1,2c;_ex:1,2c;_nx:1,2,4c;_nx_noop:1,2,3c;_n_js:1,2;_nx_js:1,2,3c;"
+"esc_attr__:1;esc_html__:1;esc_attr_e:1;esc_html_e:1;esc_attr_x:1,2c;"
+"esc_html_x:1,2c;comments_number_link:2,3;t:1;st:1;trans:1;transChoice:1,2\n"
 "X-Poedit-Basepath: \n"
 "X-Poedit-Bookmarks: \n"
 "X-Poedit-SearchPath-0: .\n"
-"X-Textdomain-Support: yes"
+"X-Textdomain-Support: yes\n"
+"X-Loco-Target-Locale: de_DE\n"
+"X-Generator: Loco - https://localise.biz/"
 
-#. translators: plugin header field 'Name'
-#: archive.php:0
-#: archive.php:504
-#: archive.php:847
-#: archive.php:848
-#@ archive
-msgid "Archive"
-msgstr "Archive - Archiv"
-
-#. translators: plugin header field 'PluginURI'
-#: archive.php:0
-#@ archive
-msgid "http://premium.bueltge.de/"
-msgstr ""
-
-#. translators: plugin header field 'Author'
-#: archive.php:0
-#@ archive
-msgid "Frank Bültge"
-msgstr ""
-
-#. translators: plugin header field 'AuthorURI'
-#: archive.php:0
-#@ archive
-msgid "http://bueltge.de"
-msgstr ""
-
-#: archive.php:243
-#@ archive
+#: ../archive.php:253
 msgid "Sorry, This plugin requires WordPress 3.0+"
 msgstr "Entschuldigung, aber dieses Plugin benötigt WordPress 3.0+"
 
-#: archive.php:255
+#: ../archive.php:265
 #, php-format
-#@ archive
-msgid "Sorry, This plugin has taken a bold step in requiring PHP 5.0+, Your server is currently running PHP %2s, Please bug your host to upgrade to a recent version of PHP which is less bug-prone. At last count, <strong>over 80%% of WordPress installs are using PHP 5.2+</strong>."
-msgstr "Entschuldigung, aber dieses Plugin hat einen mutigen Schritt in der PHP Bedingung genommen: 5.0+, Der Server läuft derzeit mit PHP%2s. Bitte deinen Hoster zu einer neueren Version von PHP, die weniger Fehleranfällig für ein Upgrade ist. Bei der letzten Zählung <strong>waren es mehr als 80%, die WordPress installiert haben mit PHP 5.2+</strong>."
+msgid ""
+"Sorry, This plugin has taken a bold step in requiring PHP 5.0+, Your server "
+"is currently running PHP %2s, Please bug your host to upgrade to a recent "
+"version of PHP which is less bug-prone. At last count, <strong>over 80%% of "
+"WordPress installs are using PHP 5.2+</strong>."
+msgstr ""
+"Entschuldigung, aber dieses Plugin hat einen mutigen Schritt in der PHP "
+"Bedingung genommen: 5.0+, Der Server läuft derzeit mit PHP%2s. Bitte deinen "
+"Hoster zu einer neueren Version von PHP, die weniger Fehleranfällig für ein "
+"Upgrade ist. Bei der letzten Zählung <strong>waren es mehr als 80%, die "
+"WordPress installiert haben mit PHP 5.2+</strong>."
 
-#: archive.php:416
-#@ archive
+#: ../archive.php:397
 msgid "Archive Info"
 msgstr "Archiv Info"
 
-#: archive.php:503
-#@ archive
+#: ../archive.php:454
 msgid "Move this item to the Archive"
 msgstr "Bewege diesen Eintrag in das Archiv"
 
-#: archive.php:531
-#@ archive
+#. translators: plugin header field 'Name'
+#: ../archive.php:455 ../archive.php:828 ../archive.php:829
+msgid "Archive"
+msgstr "Archive - Archiv"
+
+#: ../archive.php:494
 msgid "Move this item to the archived post type"
 msgstr "Bewege diesen Eintrag in den archivierte Post Type"
 
-#: archive.php:533
-#@ archive
+#: ../archive.php:496
 msgid "Restore to"
 msgstr "Wiederherstellen zu"
 
-#: archive.php:626
-#@ archive
-msgid "No post to archive has been supplied!"
-msgstr "Kein Artikel zum Archiv geliefert vermerkt!"
-
-#: archive.php:643
-#: archive.php:682
-#@ archive
-msgid "Sorry, i cant find the post-id"
-msgstr "Leider finde ich keine die Post-ID"
-
-#: archive.php:759
-#, php-format
-msgid "Item moved to the Archive."
-msgid_plural "%s items moved to the Archive."
-msgstr[0] ""
-msgstr[1] ""
-
-#: archive.php:766
-#@ default
-msgid "Undo"
-msgstr ""
-
-#: archive.php:771
-#, php-format
-msgid "Item moved to the Post Type: %2$s."
-msgid_plural "%1$s items moved to the Post Types: %2$s."
-msgstr[0] ""
-msgstr[1] ""
-
-#: archive.php:828
-#@ archive
-msgid "Archived Post Type:"
-msgstr "Archivierter Post Type:"
-
-#: archive.php:849
-#@ archive
-msgid "Add New"
-msgstr "Erstellen"
-
-#: archive.php:981
-#@ archive
-msgid "ID"
-msgstr "ID"
-
-#. translators: plugin header field 'Description'
-#: archive.php:0
-#@ archive
-msgid "Archive your post types, also with cron."
-msgstr "Archive deine Post Typen, auch via Cron."
-
-#: archive.php:607
-#@ archive
+#: ../archive.php:578
 msgid "Restore to Post Type"
 msgstr "Wiederherstellen zu Post Type"
 
-#: archive.php:1118
-#@ archive
-msgid "Archive - maybe later an help for this plugin"
-msgstr "Archiv - eine Hilfe eventuell später"
+#: ../archive.php:597
+msgid "No post to archive has been supplied!"
+msgstr "Kein Artikel zum Archiv geliefert vermerkt!"
 
-#: archive.php:826
-#@ archive
-msgid "ID of this archived item:"
-msgstr "ID von diesem archiviertem Element:"
+#: ../archive.php:615
+msgid "Sorry, I can't find the post-id"
+msgstr "Entschuldigung, aber ich kann die Post ID nicht finden."
 
-#: archive.php:1016
-#@ archive
-msgid "No"
-msgstr "Keine"
-
-#: archive.php:850
-#@ archive
-msgid "Add New Item"
-msgstr "Neuer Element"
-
-#: archive.php:851
-#@ archive
-msgid "Edit Item"
-msgstr "Element bearbeiten"
-
-#: archive.php:852
-#@ archive
-msgid "New Item in Archive"
-msgstr "Neues Element im Archiv"
-
-#: archive.php:853
-#@ archive
-msgid "View Item"
-msgstr "Element ansehen"
-
-#: archive.php:854
-#@ archive
-msgid "Search in Archive"
-msgstr "Suche im Archiv"
-
-#: archive.php:855
-#@ archive
-msgid "No item found in Archive"
-msgstr "Kein Element im Archiv gefunden"
-
-#: archive.php:856
-#@ archive
-msgid "No item found in Archive-Trash"
-msgstr "Kein Element im Papierkorb des Archives gefunden"
-
-#: archive.php:857
-#@ archive
-msgid "Parent item in Archive"
-msgstr "Elternelement im Archiv"
-
-#: archive.php:663
-#@ archive
+#: ../archive.php:634
 msgid "No item to undo archive has been supplied!"
 msgstr "Es wurde kein Element zum Wiederherstellen gewählt!"
 
-#: archive.php:896
-#@ archive
+#: ../archive.php:654
+msgid "Sorry, i cant find the post-id"
+msgstr "Leider finde ich keine die Post-ID"
+
+#: ../archive.php:734
+#, php-format
+msgid "Item moved to the Archive."
+msgid_plural "%s items moved to the Archive."
+msgstr[0] "Beiträg nun im Archiv abgelegt."
+msgstr[1] "%s Beiträge im Archiv abgelegt."
+
+#: ../archive.php:743
+msgid "Undo"
+msgstr "Rückgängig"
+
+#: ../archive.php:750
+#, php-format
+msgid "Item moved to the Post Type: %2$s."
+msgid_plural "%1$s items moved to the Post Types: %2$s."
+msgstr[0] "Beiträg im Post Type: %2$s abgelegt."
+msgstr[1] ""
+"%1$s \n"
+"Beiträge im Post Type: %2$s abgelegt."
+
+#: ../archive.php:808
+msgid "ID of this archived item:"
+msgstr "ID von diesem archiviertem Element:"
+
+#: ../archive.php:810
+msgid "Archived Post Type:"
+msgstr "Archivierter Post Type:"
+
+#: ../archive.php:830
+msgid "Add New"
+msgstr "Erstellen"
+
+#: ../archive.php:831
+msgid "Add New Item"
+msgstr "Neues Element"
+
+#: ../archive.php:832
+msgid "Edit Item"
+msgstr "Element bearbeiten"
+
+#: ../archive.php:833
+msgid "New Item in Archive"
+msgstr "Neues Element im Archiv"
+
+#: ../archive.php:834
+msgid "View Item"
+msgstr "Element ansehen"
+
+#: ../archive.php:835
+msgid "Search in Archive"
+msgstr "Suche im Archiv"
+
+#: ../archive.php:836
+msgid "No item found in Archive"
+msgstr "Kein Element im Archiv gefunden"
+
+#: ../archive.php:837
+msgid "No item found in Archive-Trash"
+msgstr "Kein Element im Papierkorb des Archives gefunden"
+
+#: ../archive.php:838
+msgid "Parent item in Archive"
+msgstr "Elternelement im Archiv"
+
+#: ../archive.php:901
 msgid "Archive post, pages and other post types to a Archive."
 msgstr "Archiviere Artikel, Seiten und andere Post Typen in ein Archiv."
 
-#. translators: plugin header field 'Version'
-#: archive.php:0
-#@ archive
-msgid "0.0.3"
-msgstr ""
+#: ../archive.php:1007
+msgid "ID"
+msgstr "ID"
 
+#: ../archive.php:1043
+msgid "No"
+msgstr "Keine"
+
+#: ../archive.php:1159
+msgid "Archive - maybe later an help for this plugin"
+msgstr "Archiv - eine Hilfe eventuell später"
+
+#: ../inc/class.settings.php:109
+msgid "Settings"
+msgstr "Einstellungen"
+
+#: ../inc/class.settings.php:160
+msgid "Show Archive link"
+msgstr "Zeige Archiv Link"
+
+#: ../inc/class.settings.php:169
+msgid ""
+"View Archive-Possibility on all post types or put behind the post types. One "
+"type per line."
+msgstr ""
+"Zeige Archiv-Möglichkeiten an allen Post Typen oder schränke die Post Typen "
+"ein. Ein Typ pro Zeile."
+
+#: ../inc/class.settings.php:177
+msgid "Your install uses the following post types:"
+msgstr "Deine Installation hat folgende Post Typen:"
+
+#: ../inc/class.settings.php:184
+msgid "Scheduled Archiving"
+msgstr "Geplante Archivierung"
+
+#: ../inc/class.settings.php:188
+msgid "Scheduled Archiving Settings"
+msgstr "Geplante Archivierungs-Einstellungen"
+
+#: ../inc/class.settings.php:197
+msgid "Automatically archive items older than"
+msgstr "Automatisches Archivieren der Enträge, wenn älter als"
+
+#: ../inc/class.settings.php:201
+msgid "days"
+msgstr "Tage"
+
+#: ../inc/class.settings.php:207
+msgid "Save Changes"
+msgstr "Einstellungen speichern"
