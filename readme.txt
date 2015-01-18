@@ -26,6 +26,8 @@ The shortcode can use different params and use the follow defaults.
 
 An example for use shortcode with params: `[archive count="10" content="true"]`
 
+Also you can change the parameters to create the custom post type of the Archiv via the filter hook `archive_post_type_arguments`.
+
 **Crafted by [Inpsyde](http://inpsyde.com) &middot; Engineering the web since 2006.**
 
 Yes, we also run that [marketplace for premium WordPress plugins and themes](http://marketpress.com).
