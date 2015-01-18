@@ -1,15 +1,16 @@
 <?php
 /**
  * Plugin Name: Archive
- * Plugin URI: http://premium.bueltge.de/
+ * Description: Archive your post types, also with cron.
+ * Version:     1.0.0
+ * Plugin URI:  https://github.com/bueltge/Archive
  * Text Domain: archive
  * Domain Path: /languages
- * Description: Archive your post types, also with cron and customize all via Settings page.
- * Author: Frank Bültge
- * Version: 0.0.5
- * Licence: GPLv2+
- * Author URI: http://bueltge.de
- * Last Change: 2015-01-09
+ * Author:      Frank Bültge
+ * Author URI:  http://bueltge.de/
+ * Licence:     GPLv2+
+ * License URI: ./license.txt
+ * Last Change: 2015-01-18
  */
 
 ! defined( 'ABSPATH' ) and exit;
@@ -61,7 +62,7 @@ class FB_Archive {
 	 *
 	 * @var string
 	 */
-	public $post_meta_key = '_archived_post_type'; // use underline for dont see in custom fields
+	public $post_meta_key = '_archived_post_type'; // use underline for don't see in custom fields
 
 	/**
 	 * Keys for view archive-link on defined screens
@@ -133,9 +134,6 @@ class FB_Archive {
 		// include settings on profile
 		//require_once dirname( __FILE__ ) . DIRECTORY_SEPARATOR . 'inc/class.settings.php';
 		//$fb_archive_settings = FB_Archive_Settings :: get_object();
-
-		// for  WP 3.1 and higher
-		//add_filter( 'site_transient_update_plugins', array( &$this, 'remove_update_nag' ) );
 
 		// load language file
 		$this->localize_plugin();
@@ -325,27 +323,6 @@ class FB_Archive {
 		}
 
 		flush_rewrite_rules();
-	}
-
-	/**
-	 * Disable plugin update notifications
-	 *
-	 * @param              $value
-	 *
-	 * @since 0.0.1
-	 * @link  http://dd32.id.au/2011/03/01/disable-plugin-update-notification-for-a-specific-plugin-in-wordpress-3-1/
-	 *
-	 * @param              array string $value
-	 *
-	 * @return array string $value
-	 */
-	public function remove_update_nag( $value ) {
-
-		if ( isset( $value ) && is_object( $value ) ) {
-			unset( $value->response[ plugin_basename( __FILE__ ) ] );
-		}
-
-		return $value;
 	}
 
 	/**
@@ -627,7 +604,7 @@ class FB_Archive {
 			wp_redirect( admin_url( 'edit.php?' . $redirect_post_type . 'archived=1&ids=' . $id ) );
 			exit;
 		} else {
-			wp_die( __( 'Sorry, i cant find the post-id', self::$textdomain ) );
+			wp_die( __( "Sorry, I can't find the post-id", self::$textdomain ) );
 		}
 
 	}
@@ -853,31 +830,6 @@ class FB_Archive {
 			'parent_item_colon'  => __( 'Parent item in Archive', self::$textdomain )
 		);
 
-		/**
-		 * - label - Name of the post type shown in the menu. Usually plural. If not set, labels['name'] will be used.
-		 * - description - A short descriptive summary of what the post type is. Defaults to blank.
-		 * - public - Whether posts of this type should be shown in the admin UI. Defaults to false.
-		 * - exclude_from_search - Whether to exclude posts with this post type from search results. Defaults to true if the type is not public, false if the type is public.
-		 * - publicly_queryable - Whether post_type queries can be performed from the front page.  Defaults to whatever public is set as.
-		 * - show_ui - Whether to generate a default UI for managing this post type. Defaults to true if the type is public, false if the type is not public.
-		 * - menu_position - The position in the menu order the post type should appear. Defaults to the bottom.
-		 * - menu_icon - The url to the icon to be used for this menu. Defaults to use the posts icon.
-		 * - capability_type - The post type to use for checking read, edit, and delete capabilities. Defaults to "post".
-		 * - capabilities - Array of capabilities for this post type. You can see accepted values in {@link get_post_type_capabilities()}. By default the capability_type is used to construct capabilities.
-		 * - hierarchical - Whether the post type is hierarchical. Defaults to false.
-		 * - supports - An alias for calling add_post_type_support() directly. See add_post_type_support() for Documentation. Defaults to none.
-		 * - register_meta_box_cb - Provide a callback function that will be called when setting up the meta boxes for the edit form.  Do remove_meta_box() and add_meta_box() calls in the callback.
-		 * - taxonomies - An array of taxonomy identifiers that will be registered for the post type.  Default is no taxonomies. Taxonomies can be registered later with register_taxonomy() or register_taxonomy_for_object_type().
-		 * - labels - An array of labels for this post type. You can see accepted values in {@link get_post_type_labels()}. By default post labels are used for non-hierarchical types and page labels for hierarchical ones.
-		 * - permalink_epmask - The default rewrite endpoint bitmasks.
-		 * - rewrite - false to prevent rewrite, or array('slug'=>$slug) to customize permastruct; default will use $post_type as slug.
-		 * - query_var - false to prevent queries, or string to value of the query var to use for this post type
-		 * - can_export - true allows this post type to be exported.
-		 * - show_in_nav_menus - true makes this post type available for selection in navigation menus.
-		 * - _builtin - true if this post type is a native or "built-in" post_type.  THIS IS FOR INTERNAL USE ONLY!
-		 * - _edit_link - URL segement to use for edit link of this post type.  Set to 'post.php?post=%d'.  THIS IS FOR INTERNAL USE ONLY!
-		 */
-
 		/*
 		 * capabilities array
 		 *
@@ -912,6 +864,30 @@ class FB_Archive {
 			'edit_published_posts'   => "edit_published_{$this->post_type_1}s",
 		);
 
+		/**
+		 * - label - Name of the post type shown in the menu. Usually plural. If not set, labels['name'] will be used.
+		 * - description - A short descriptive summary of what the post type is. Defaults to blank.
+		 * - public - Whether posts of this type should be shown in the admin UI. Defaults to false.
+		 * - exclude_from_search - Whether to exclude posts with this post type from search results. Defaults to true if the type is not public, false if the type is public.
+		 * - publicly_queryable - Whether post_type queries can be performed from the front page.  Defaults to whatever public is set as.
+		 * - show_ui - Whether to generate a default UI for managing this post type. Defaults to true if the type is public, false if the type is not public.
+		 * - menu_position - The position in the menu order the post type should appear. Defaults to the bottom.
+		 * - menu_icon - The url to the icon to be used for this menu. Defaults to use the posts icon.
+		 * - capability_type - The post type to use for checking read, edit, and delete capabilities. Defaults to "post".
+		 * - capabilities - Array of capabilities for this post type. You can see accepted values in {@link get_post_type_capabilities()}. By default the capability_type is used to construct capabilities.
+		 * - hierarchical - Whether the post type is hierarchical. Defaults to false.
+		 * - supports - An alias for calling add_post_type_support() directly. See add_post_type_support() for Documentation. Defaults to none.
+		 * - register_meta_box_cb - Provide a callback function that will be called when setting up the meta boxes for the edit form.  Do remove_meta_box() and add_meta_box() calls in the callback.
+		 * - taxonomies - An array of taxonomy identifiers that will be registered for the post type.  Default is no taxonomies. Taxonomies can be registered later with register_taxonomy() or register_taxonomy_for_object_type().
+		 * - labels - An array of labels for this post type. You can see accepted values in {@link get_post_type_labels()}. By default post labels are used for non-hierarchical types and page labels for hierarchical ones.
+		 * - permalink_epmask - The default rewrite endpoint bitmasks.
+		 * - rewrite - false to prevent rewrite, or array('slug'=>$slug) to customize permastruct; default will use $post_type as slug.
+		 * - query_var - false to prevent queries, or string to value of the query var to use for this post type
+		 * - can_export - true allows this post type to be exported.
+		 * - show_in_nav_menus - true makes this post type available for selection in navigation menus.
+		 * - _builtin - true if this post type is a native or "built-in" post_type.  THIS IS FOR INTERNAL USE ONLY!
+		 * - _edit_link - URL segement to use for edit link of this post type.  Set to 'post.php?post=%d'.  THIS IS FOR INTERNAL USE ONLY!
+		 */
 		$args = array(
 			'labels'              => $labels,
 			'description'         => __(
@@ -1179,7 +1155,7 @@ class FB_Archive {
 	}
 
 	/**
-	 * Add to Archive to qury
+	 * Add to Archive to query
 	 *
 	 * @uses   query_vars, is_admin, is_preview
 	 * @since  0.0.4
@@ -1275,7 +1251,9 @@ class FB_Archive {
 		$archived_posts = apply_filters( 'fb_get_archive', $archived_posts );
 
 		if ( $a[ 'debug' ] ) {
+			echo '<h1>Debug Archived Posts</h1><pre>';
 			var_dump( $archived_posts );
+			echo '</pre>';
 		}
 
 		return $archived_posts;
