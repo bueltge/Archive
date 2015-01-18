@@ -11,11 +11,11 @@ The Shortcode can use different params and use the follow defaults.
 'category'      => '', // Show posts associated with certain categories.
 'tag'           => '', // Show posts associated with certain tags.
 'post_status'   => 'publish', // status or all for all posts
-'echo'          => TRUE, // echo or give an array for use external
+'echo'          => 'true', // echo or give an array for use external
 'return_markup' => 'ul', // markup before echo title, content
 'title_markup'  => 'li', // markup before item
-'content'       => FALSE, // view also content?
-'debug'         => FALSE // debug mor vor view an array
+'content'       => 'false', // view also content?
+'debug'         => 'false' // debug mor vor view an array
 ```
 
 An example for use shortcode with params: `[archive count="10" content="true"]`
