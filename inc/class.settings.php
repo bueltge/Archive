@@ -19,7 +19,7 @@ class FB_Archive_Settings {
 	 *
 	 * @access public
 	 * @since  0.0.2
-	 * @return $classobj
+	 * @return FB_Archive_Settings|null $classobj
 	 */
 	public static function get_object() {
 
@@ -36,7 +36,6 @@ class FB_Archive_Settings {
 	 * @access  public
 	 * @since   0.0.2
 	 * @uses    register_activation_hook, register_uninstall_hook, add_action
-	 * @return  void
 	 */
 	public function __construct() {
 
@@ -99,8 +98,10 @@ class FB_Archive_Settings {
 	 *
 	 * @param array $links , string $file
 	 *
-	 * @since  0.0.2
+	 * @param       $file
+	 *
 	 * @return string $links
+	 * @since  0.0.2
 	 */
 	public function plugin_action_links( $links, $file ) {
 

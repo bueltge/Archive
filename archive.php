@@ -492,20 +492,25 @@ class FB_Archive {
 	 */
 	public function add_unset_archive_link( $actions, $id ) {
 
-		global $post, $current_screen;
+		$screen = get_current_screen();
 
-		$post_type_object = get_post_type_object( $post->post_type );
-
-		if ( isset( $current_screen->id ) && in_array( $current_screen->id, $this->def_unset_screens )
-			&& current_user_can( $post_type_object->cap->delete_post, $post->ID )
-		) {
-			$archived_post_type   = get_post_meta( $id->ID, $this->post_meta_key, TRUE );
-			$actions[ 'archive' ] = '<a href="' . $this->get_unset_archive_post_link( $post->ID )
-				. '&on_archive=1" title="'
-				. esc_attr( __( 'Move this item to the archived post type', self::$textdomain ) )
-				. ': ' . $archived_post_type
-				. '">' . __( 'Restore to', self::$textdomain ) . ' <code>' . $archived_post_type . '</code></a>';
+		// Not enough rights
+		$post_type_object = get_post_type_object( $screen->post_type );
+		if ( ! current_user_can( $post_type_object->cap->delete_post, $id->ID ) ) {
+			return $actions;
 		}
+
+		// Not on the right screen
+		if ( ! in_array( $screen->id, $this->def_unset_screens ) ) {
+			return $actions;
+		}
+
+		$archived_post_type   = get_post_meta( $id->ID, $this->post_meta_key, TRUE );
+		$actions[ 'archive' ] = '<a href="' . $this->get_unset_archive_post_link( $id->ID )
+			. '&on_archive=1" title="'
+			. esc_attr( __( 'Move this item to the archived post type', self::$textdomain ) )
+			. ': ' . $archived_post_type
+			. '">' . __( 'Restore to', self::$textdomain ) . ' <code>' . $archived_post_type . '</code></a>';
 
 		return $actions;
 	}
