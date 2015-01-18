@@ -476,7 +476,7 @@ class FB_Archive {
 		if ( ! isset( $screen->post_type ) ) {
 			return $actions;
 		}
-		
+
 		// Not enough rights
 		$post_type_object = get_post_type_object( $screen->post_type );
 		if ( ! current_user_can( $post_type_object->cap->delete_post, $id->ID ) ) {
@@ -1258,7 +1258,7 @@ class FB_Archive {
 		$archived_posts = '<' . $a[ 'return_markup' ] . '>' . $archived_posts . '</' . $a[ 'return_markup' ] . '>';
 		$archived_posts = apply_filters( 'fb_get_archive', $archived_posts );
 
-		if ( $a[ 'debug' ] ) {
+		if ( 'true' === $a[ 'debug' ] ) {
 			echo '<h1>Debug Archived Posts</h1><pre>';
 			var_dump( $archived_posts );
 			echo '</pre>';
