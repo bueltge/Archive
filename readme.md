@@ -39,10 +39,10 @@ Yes, we also run that [marketplace for premium WordPress plugins and themes](htt
 ![Possibility to archive on posts](./assets/screenshot-1.png)
 
 2. Possibility to archive on posts, WP 3*
-![Possibility to archive on posts](./assets/screenshot-1.png)
+![Possibility to archive on posts](./assets/screenshot-2.png)
 
 3. In Archive, also possible to restore, WP 3*
-![In Archive, also possible to restore](./assets/screenshot-2.png)
+![In Archive, also possible to restore](./assets/screenshot-3.png)
 
 ## Other Notes
 #### License
