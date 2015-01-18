@@ -434,6 +434,10 @@ class FB_Archive {
 
 		$screen = get_current_screen();
 
+		if ( ! isset( $screen->post_type ) ) {
+			return $actions;
+		}
+
 		// Not enough rights
 		$post_type_object = get_post_type_object( $screen->post_type );
 		if ( ! current_user_can( $post_type_object->cap->delete_post, $id->ID ) ) {
@@ -469,6 +473,10 @@ class FB_Archive {
 
 		$screen = get_current_screen();
 
+		if ( ! isset( $screen->post_type ) ) {
+			return $actions;
+		}
+		
 		// Not enough rights
 		$post_type_object = get_post_type_object( $screen->post_type );
 		if ( ! current_user_can( $post_type_object->cap->delete_post, $id->ID ) ) {
