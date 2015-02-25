@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Archive
  * Description: Archive your post types, also with cron.
- * Version:     1.0.0
+ * Version:     1.0.1
  * Plugin URI:  https://github.com/bueltge/Archive
  * Text Domain: archive
  * Domain Path: /languages
@@ -10,7 +10,7 @@
  * Author URI:  http://bueltge.de/
  * Licence:     GPLv2+
  * License URI: ./license.txt
- * Last Change: 2015-01-18
+ * Last Change: 2015-02-25
  */
 
 ! defined( 'ABSPATH' ) and exit;
@@ -36,14 +36,14 @@ class FB_Archive {
 	 *
 	 * @var string
 	 */
-	public $post_type_1 = 'archiv';
+	static public $post_type_1 = 'archiv';
 
 	/*
 	 * Key for custom taxonomy
 	 *
 	 * @var string
 	 */
-	public $taxonomy_type_1 = 'archive_structure';
+	static public $taxonomy_type_1 = 'archive_structure';
 
 	// set capabilities on roles
 	public $todo_roles = array(
@@ -52,6 +52,8 @@ class FB_Archive {
 	);
 
 	public $read_roles = array(
+		'administrator',
+		'editor',
 		'author',
 		'contributor',
 		'subscriber',
@@ -272,20 +274,27 @@ class FB_Archive {
 		}
 
 		foreach ( $this->todo_roles as $role ) {
-			$wp_roles->add_cap( $role, 'edit_' . $this->post_type_1 );
-			$wp_roles->add_cap( $role, 'edit_' . $this->post_type_1 . 's' );
-			$wp_roles->add_cap( $role, 'edit_others_' . $this->post_type_1 . 's' );
-			$wp_roles->add_cap( $role, 'publish_' . $this->post_type_1 . 's' );
-			$wp_roles->add_cap( $role, 'read_' . $this->post_type_1 );
-			$wp_roles->add_cap( $role, 'read_private_' . $this->post_type_1 . 's' );
-			$wp_roles->add_cap( $role, 'delete_' . $this->post_type_1 );
-			$wp_roles->add_cap( $role, 'manage_' . $this->taxonomy_type_1 );
+			$wp_roles->add_cap( $role, 'edit_' . self::$post_type_1 );
+			$wp_roles->add_cap( $role, 'read_' . self::$post_type_1 );
+			$wp_roles->add_cap( $role, 'delete_' . self::$post_type_1 );
+			$wp_roles->add_cap( $role, 'edit_' . self::$post_type_1 . 's' );
+			$wp_roles->add_cap( $role, 'edit_others_' . self::$post_type_1 . 's' );
+			$wp_roles->add_cap( $role, 'publish_' . self::$post_type_1 . 's' );
+			$wp_roles->add_cap( $role, 'read_private_' . self::$post_type_1 . 's' );
+			$wp_roles->add_cap( $role, 'delete_' . self::$post_type_1 . 's' );
+			$wp_roles->add_cap( $role, 'delete_private_' . self::$post_type_1 . 's' );
+			$wp_roles->add_cap( $role, 'delete_published_' . self::$post_type_1 . 's' );
+			$wp_roles->add_cap( $role, 'delete_others_' . self::$post_type_1 . 's' );
+			$wp_roles->add_cap( $role, 'edit_private_' . self::$post_type_1 . 's' );
+			$wp_roles->add_cap( $role, 'edit_published_' . self::$post_type_1 . 's' );
+			$wp_roles->add_cap( $role, 'manage_' . self::$taxonomy_type_1 );
+			$wp_roles->add_cap( $role, 'edit_' . self::$taxonomy_type_1 );
+			$wp_roles->add_cap( $role, 'delete_' . self::$taxonomy_type_1 );
+			$wp_roles->add_cap( $role, 'assign_' . self::$taxonomy_type_1 );
 		}
 
 		foreach ( $this->read_roles as $role ) {
-			$wp_roles->add_cap( $role, 'read_' . $this->post_type_1 );
-			$wp_roles->add_cap( $role, 'read_' . $this->post_type_1 );
-			$wp_roles->add_cap( $role, 'read_' . $this->post_type_1 );
+			$wp_roles->add_cap( $role, 'read_' . self::$post_type_1 );
 		}
 
 		flush_rewrite_rules();
@@ -306,20 +315,27 @@ class FB_Archive {
 		global $wp_roles;
 
 		foreach ( $obj->todo_roles as $role ) {
-			$wp_roles->remove_cap( $role, 'edit_' . $obj->post_type_1 );
-			$wp_roles->remove_cap( $role, 'edit_' . $obj->post_type_1 . 's' );
-			$wp_roles->remove_cap( $role, 'edit_others_' . $obj->post_type_1 . 's' );
-			$wp_roles->remove_cap( $role, 'publish_' . $obj->post_type_1 . 's' );
-			$wp_roles->remove_cap( $role, 'read_' . $obj->post_type_1 );
-			$wp_roles->remove_cap( $role, 'read_private_' . $obj->post_type_1 . 's' );
-			$wp_roles->remove_cap( $role, 'delete_' . $obj->post_type_1 );
-			$wp_roles->remove_cap( $role, 'manage_' . $obj->taxonomy_type_1 );
+			$wp_roles->remove_cap( $role, 'edit_' . self::$post_type_1 );
+			$wp_roles->remove_cap( $role, 'read_' . self::$post_type_1 );
+			$wp_roles->remove_cap( $role, 'delete_' . self::$post_type_1 );
+			$wp_roles->remove_cap( $role, 'edit_' . self::$post_type_1 . 's' );
+			$wp_roles->remove_cap( $role, 'edit_others_' . self::$post_type_1 . 's' );
+			$wp_roles->remove_cap( $role, 'publish_' . self::$post_type_1 . 's' );
+			$wp_roles->remove_cap( $role, 'read_private_' . self::$post_type_1 . 's' );
+			$wp_roles->remove_cap( $role, 'delete_' . self::$post_type_1 . 's' );
+			$wp_roles->remove_cap( $role, 'delete_private_' . self::$post_type_1 . 's' );
+			$wp_roles->remove_cap( $role, 'delete_published_' . self::$post_type_1 . 's' );
+			$wp_roles->remove_cap( $role, 'delete_others_' . self::$post_type_1 . 's' );
+			$wp_roles->remove_cap( $role, 'edit_private_' . self::$post_type_1 . 's' );
+			$wp_roles->remove_cap( $role, 'edit_published_' . self::$post_type_1 . 's' );
+			$wp_roles->remove_cap( $role, 'manage_' . self::$taxonomy_type_1 );
+			$wp_roles->remove_cap( $role, 'edit_' . self::$taxonomy_type_1 );
+			$wp_roles->remove_cap( $role, 'delete_' . self::$taxonomy_type_1 );
+			$wp_roles->remove_cap( $role, 'assign_' . self::$taxonomy_type_1 );
 		}
 
 		foreach ( $obj->read_roles as $role ) {
-			$wp_roles->remove_cap( $role, 'read_' . $obj->post_type );
-			$wp_roles->remove_cap( $role, 'read_' . $obj->post_type );
-			$wp_roles->remove_cap( $role, 'read_' . $obj->post_type );
+			$wp_roles->remove_cap( $role, 'read_' . self::$post_type_1 );
 		}
 
 		flush_rewrite_rules();
@@ -340,7 +356,7 @@ class FB_Archive {
 		add_action( 'admin_action_archive', array( $this, 'archive_post_type' ) );
 		add_action( 'admin_notices', array( $this, 'get_admin_notices' ) );
 		// modify bulk actions - current not possible in WP
-		//add_filter( 'bulk_actions-edit-' . $this->post_type_1, array( $this, 'filter_bulk_actions' ) );
+		//add_filter( 'bulk_actions-edit-' . self::$post_type_1, array( $this, 'filter_bulk_actions' ) );
 
 		add_filter( 'post_row_actions', array( $this, 'add_unset_archive_link' ), 10, 2 );
 		add_action( 'admin_action_unset_archive', array( $this, 'unset_archive_post_type' ) );
@@ -368,7 +384,7 @@ class FB_Archive {
 		}
 
 		$screen = get_current_screen();
-		if ( $this->post_type_1 !== $screen->post_type ) {
+		if ( self::$post_type_1 !== $screen->post_type ) {
 			return NULL;
 		}
 
@@ -396,7 +412,7 @@ class FB_Archive {
 			'id',
 			__( 'Archive Info', self::$textdomain ),
 			array( $this, 'additional_meta_box' ),
-			$this->post_type_1,
+			self::$post_type_1,
 			'side', 'high'
 		);
 	}
@@ -606,7 +622,7 @@ class FB_Archive {
 				$redirect_post_type = 'post_type=' . $archived_post_type . '&';
 			}
 			// change post type
-			set_post_type( $id, $this->post_type_1 );
+			set_post_type( $id, self::$post_type_1 );
 			// add old post_type to post meta
 			add_post_meta( $id, $this->post_meta_key, $archived_post_type, TRUE );
 			wp_redirect( admin_url( 'edit.php?' . $redirect_post_type . 'archived=1&ids=' . $id ) );
@@ -705,7 +721,7 @@ class FB_Archive {
 			if ( $value[ 'ID' ] ) {
 				$archived_post_type = get_post_type( $value[ 'ID' ] );
 				// change post type
-				set_post_type( $value[ 'ID' ], $this->post_type_1 );
+				set_post_type( $value[ 'ID' ], self::$post_type_1 );
 				// add old post_type to post meta
 				add_post_meta( $value[ 'ID' ], $this->post_meta_key, $archived_post_type, TRUE );
 			}
@@ -857,19 +873,19 @@ class FB_Archive {
 		 *
 		 */
 		$capabilities = array(
-			'edit_post'              => "edit_{$this->post_type_1}",
-			'read_post'              => "read_{$this->post_type_1}",
-			'delete_post'            => "delete_{$this->post_type_1}",
-			'edit_posts'             => "edit_{$this->post_type_1}s",
-			'edit_others_posts'      => "edit_others_{$this->post_type_1}s",
-			'publish_posts'          => "publish_{$this->post_type_1}s",
-			'read_private_posts'     => "read_private_{$this->post_type_1}s",
-			'delete_posts'           => "delete_{$this->post_type_1}s",
-			'delete_private_posts'   => "delete_private_{$this->post_type_1}s",
-			'delete_published_posts' => "delete_published_{$this->post_type_1}s",
-			'delete_others_posts'    => "delete_others_{$this->post_type_1}s",
-			'edit_private_posts'     => "edit_private_{$this->post_type_1}s",
-			'edit_published_posts'   => "edit_published_{$this->post_type_1}s",
+			'edit_post'              => 'edit_' . self::$post_type_1,
+			'read_post'              => 'read_' . self::$post_type_1,
+			'delete_post'            => 'delete_' . self::$post_type_1,
+			'edit_posts'             => 'edit_' . self::$post_type_1 . 's',
+			'edit_others_posts'      => 'edit_others_' . self::$post_type_1 . 's',
+			'publish_posts'          => 'publish_' . self::$post_type_1 . 's',
+			'read_private_posts'     => 'read_private_' . self::$post_type_1 . 's',
+			'delete_posts'           => 'delete_' . self::$post_type_1 . 's',
+			'delete_private_posts'   => 'delete_private_' . self::$post_type_1 . 's',
+			'delete_published_posts' => 'delete_published_' . self::$post_type_1 . 's',
+			'delete_others_posts'    => 'delete_others_' . self::$post_type_1 . 's',
+			'edit_private_posts'     => 'edit_private_' . self::$post_type_1 . 's',
+			'edit_published_posts'   => 'edit_published_' . self::$post_type_1 . 's',
 		);
 
 		/**
@@ -907,7 +923,8 @@ class FB_Archive {
 			'show_in_nav_menus'   => FALSE,
 			'menu_position'       => 22,
 			'menu_icon'           => 'dashicons-archive',
-			'capabilities'        => $capabilities,
+			//'capability_type'     => 'post',
+			//'capabilities'        => $capabilities,
 			'supports'            => array(
 				'title',
 				'editor',
@@ -920,9 +937,9 @@ class FB_Archive {
 				'thumbnail',
 				'custom-fields',
 				'post-formats',
-				'page-attributes'
+				'page-attributes',
 			),
-			'taxonomies'          => array( 'category', 'post_tag', $this->taxonomy_type_1 ),
+			'taxonomies'          => array( 'category', 'post_tag', self::$taxonomy_type_1 ),
 			'has_archive'         => TRUE
 		);
 
@@ -931,7 +948,7 @@ class FB_Archive {
 		 */
 		$args = apply_filters( 'archive_post_type_arguments', $args );
 
-		register_post_type( $this->post_type_1, $args );
+		register_post_type( self::$post_type_1, $args );
 	}
 
 	/**
@@ -1012,7 +1029,7 @@ class FB_Archive {
 		// add structure tax
 		$this->array_insert( $columns,
 			2,
-			array( $this->taxonomy_type_1 => __( 'Structures', self::$textdomain ) )
+			array( self::$taxonomy_type_1 => __( 'Structures', self::$textdomain ) )
 		); */
 
 		return $columns;
@@ -1035,12 +1052,12 @@ class FB_Archive {
 		$id = (int) $id;
 
 		switch ( $column_name ) {
-			case $this->taxonomy_type_1:
-				$taxonomys = get_the_term_list( $id, $this->taxonomy_type_1, '', ', ', '' );
+			case self::$taxonomy_type_1:
+				$taxonomys = get_the_term_list( $id, self::$taxonomy_type_1, '', ', ', '' );
 				if ( isset( $taxonomys[ 0 ] ) ) {
 					$structure = $taxonomys;
 				} else {
-					$structure = __( 'No', self::$textdomain ) . $this->taxonomy_type_1;
+					$structure = __( 'No', self::$textdomain ) . self::$taxonomy_type_1;
 				}
 
 				$value = $structure;
@@ -1110,7 +1127,7 @@ class FB_Archive {
 	public function add_value_to_row() {
 
 		// on screen: edit-snippets
-		add_action( 'manage_edit-' . $this->post_type_1 . '_columns', array( &$this, 'add_columns' ) );
+		add_action( 'manage_edit-' . self::$post_type_1 . '_columns', array( &$this, 'add_columns' ) );
 		add_filter( 'manage_posts_custom_column', array( &$this, 'return_custom_columns' ), 10, 3 );
 	}
 
@@ -1150,7 +1167,7 @@ class FB_Archive {
 	 */
 	public function add_help_text( $contextual_help, $screen_id, $screen ) {
 
-		if ( ! isset( $screen->post_type ) || $this->post_type_1 !== $screen->post_type ) {
+		if ( ! isset( $screen->post_type ) || self::$post_type_1 !== $screen->post_type ) {
 			return $contextual_help;
 		}
 
@@ -1179,7 +1196,7 @@ class FB_Archive {
 		}
 
 		if ( ! isset( $query->query_vars[ 'suppress_filters' ] ) || FALSE == $query->query_vars[ 'suppress_filters' ] ) {
-			$query->set( 'post_type', array( 'post', $this->post_type_1 ) );
+			$query->set( 'post_type', array( 'post', self::$post_type_1 ) );
 		}
 
 		return $query;
@@ -1201,7 +1218,7 @@ class FB_Archive {
 		extract(
 			$a = shortcode_atts(
 				array(
-					'count'         => -1, // count or -1 for all posts
+					'count'         => - 1, // count or -1 for all posts
 					'category'      => '', // Show posts associated with certain categories.
 					'tag'           => '', // Show posts associated with certain tags.
 					'post_status'   => 'publish', // status or all for all posts
@@ -1215,7 +1232,7 @@ class FB_Archive {
 		);
 
 		$args = array(
-			'post_type'      => $this->post_type_1,
+			'post_type'      => self::$post_type_1,
 			'post_status'    => $a[ 'post_status' ],
 			'posts_per_page' => $a[ 'count' ],
 			'cat'            => $a[ 'category' ],
