@@ -12,17 +12,17 @@ Archive your post types, also possible via cron; but only active via var inside 
 Use the shortcode [archive] to list al posts from Archive with status publish to a page or post.
 The shortcode can use different params and use the follow defaults.
 
-`
-'count'         => -1, // count or -1 for all posts
-'category'      => '', // Show posts associated with certain categories.
-'tag'           => '', // Show posts associated with certain tags.
-'post_status'   => 'publish', // status or all for all posts
-'echo'          => 'true', // echo or give an array for use external
-'return_markup' => 'ul', // markup before echo title, content
-'title_markup'  => 'li', // markup before item
-'content'       => 'false', // view also content?
-'debug'         => 'false' // debug mor vor view an array
-`
+	`
+	'count'         => -1, // count or -1 for all posts
+	'category'      => '', // Show posts associated with certain categories.
+	'tag'           => '', // Show posts associated with certain tags.
+	'post_status'   => 'publish', // status or all for all posts
+	'echo'          => 'true', // echo or give an array for use external
+	'return_markup' => 'ul', // markup before echo title, content
+	'title_markup'  => 'li', // markup before item
+	'content'       => 'false', // view also content?
+	'debug'         => 'false' // debug mor vor view an array
+	`
 
 An example for use shortcode with params: `[archive count="10" content="true"]`
 
@@ -49,7 +49,7 @@ Yes, we also run that [marketplace for premium WordPress plugins and themes](htt
 1. Now you find a link on all post types for archive the item
 
 = Licence =
-Good news, this plugin is free for everyone! Since it's released under the GPL, you can use it free of charge on your personal or commercial blog.
+Good news, this plugin is free for everyone! Since it's released under the GPL2+, you can use it free of charge on your personal or commercial blog.
 
 = Translations =
 The plugin comes with various translations, please refer to the [WordPress Codex](http://codex.wordpress.org/Installing_WordPress_in_Your_Language "Installing WordPress in Your Language") for more information about activating the translation. If you want to help to translate the plugin to your language, please have a look at the .po file which contains all definitions and may be used with a [gettext](http://www.gnu.org/software/gettext/) editor like [Poedit](http://www.poedit.net/) (Windows) or plugin for WordPress [Localization](http://wordpress.org/extend/plugins/codestyling-localization/).
@@ -60,6 +60,11 @@ The plugin comes with various translations, please refer to the [WordPress Codex
 3. In Archive, also possible to restore, WP 3*
 
 == Changelog ==
+= 1.0.1 (2015-03-12) =
+* Fix activate, deactivate values for all new capabilities on custom post type; Result was an bug to see the menu item
+* Fix value on register post type
+* Code maintenance
+
 = 1.0.0 (2015-01-18) =
 * Remove custom function to check for right post type, fixes error notice since WP 4.0.
 * Remove custom css, switch to Dashicon.

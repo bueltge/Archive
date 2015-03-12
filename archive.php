@@ -10,16 +10,28 @@
  * Author URI:  http://bueltge.de/
  * Licence:     GPLv2+
  * License URI: ./license.txt
- * Last Change: 2015-02-25
+ *
+ * Php Version 5.3
+ *
+ * @package WordPress
+ * @author  Frank Bültge <f.bueltge@inpsyde.com>
+ * @license http://opensource.org/licenses/gpl-license.php GNU Public License
+ * @version 2015-03-12
  */
-
-! defined( 'ABSPATH' ) and exit;
 
 /**
- * init class with plugin
+ * Don't call this file directly.
  */
-add_action( 'plugins_loaded', array( 'FB_Archive', 'get_object' ) );
+defined( 'ABSPATH' ) || die();
 
+add_action( 'plugins_loaded', array( 'FB_Archive', 'get_object' ) );
+register_activation_hook( __FILE__, array( 'FB_Archive', 'on_activate' ) );
+register_deactivation_hook( __FILE__, array( 'FB_Archive', 'on_deactivate' ) );
+register_uninstall_hook( __FILE__, array( 'FB_Archive', 'on_deactivate' ) );
+
+/**
+ * Class FB_Archive
+ */
 class FB_Archive {
 
 	static protected $classobj = NULL;
@@ -45,13 +57,22 @@ class FB_Archive {
 	 */
 	static public $taxonomy_type_1 = 'archive_structure';
 
-	// set capabilities on roles
-	public $todo_roles = array(
+	/**
+	 * Roles for edit, create custom post type
+	 *
+	 * @var array
+	 */
+	static public $todo_roles = array(
 		'administrator',
 		'editor',
 	);
 
-	public $read_roles = array(
+	/**
+	 * Roles to read post type
+	 *
+	 * @var array
+	 */
+	static public $read_roles = array(
 		'administrator',
 		'editor',
 		'author',
@@ -71,11 +92,14 @@ class FB_Archive {
 	 * Add Screen Id or not an array for view link on all screens
 	 *
 	 * @see http://codex.wordpress.org/Plugin_API/Admin_Screen_Reference
+	 * @var array
 	 */
 	public $def_archive_screens = array( 'edit-post', 'edit-page' );
 
 	/**
 	 * Keys for view undo-archive-link on defined screens
+	 *
+	 * @var array
 	 */
 	public $def_unset_screens = array( 'edit-archiv' );
 
@@ -139,11 +163,6 @@ class FB_Archive {
 
 		// load language file
 		$this->localize_plugin();
-
-		// on activation of the plugin add cap to roles
-		register_activation_hook( __FILE__, array( $this, 'on_activate' ) );
-		// on uninstall remove capability from roles
-		register_uninstall_hook( __FILE__, array( 'FB_Archive', 'on_deactivate' ) );
 
 		// add post type
 		add_action( 'init', array( $this, 'build_post_type' ) );
@@ -242,7 +261,7 @@ class FB_Archive {
 	 * @since  0.0.1
 	 * @return void
 	 */
-	public function on_activate() {
+	static public function on_activate() {
 
 		global $wp_roles, $wp_version;
 
@@ -252,7 +271,7 @@ class FB_Archive {
 			die(
 			wp_sprintf(
 				'<strong>%s:</strong> ' .
-				__( 'Sorry, This plugin requires WordPress 3.0+', self::$textdomain )
+				esc_attr__( 'Sorry, This plugin requires WordPress 3.0+', self::$textdomain )
 				, self::get_plugin_data( 'Name' )
 			)
 			);
@@ -264,7 +283,7 @@ class FB_Archive {
 			die(
 			wp_sprintf(
 				'<strong>%1s:</strong> ' .
-				__(
+				esc_attr__(
 					'Sorry, This plugin has taken a bold step in requiring PHP 5.0+, Your server is currently running PHP %2s, Please bug your host to upgrade to a recent version of PHP which is less bug-prone. At last count, <strong>over 80%% of WordPress installs are using PHP 5.2+</strong>.',
 					self::$textdomain
 				)
@@ -273,7 +292,7 @@ class FB_Archive {
 			);
 		}
 
-		foreach ( $this->todo_roles as $role ) {
+		foreach ( self::$todo_roles as $role ) {
 			$wp_roles->add_cap( $role, 'edit_' . self::$post_type_1 );
 			$wp_roles->add_cap( $role, 'read_' . self::$post_type_1 );
 			$wp_roles->add_cap( $role, 'delete_' . self::$post_type_1 );
@@ -293,7 +312,7 @@ class FB_Archive {
 			$wp_roles->add_cap( $role, 'assign_' . self::$taxonomy_type_1 );
 		}
 
-		foreach ( $this->read_roles as $role ) {
+		foreach ( self::$read_roles as $role ) {
 			$wp_roles->add_cap( $role, 'read_' . self::$post_type_1 );
 		}
 
@@ -308,13 +327,11 @@ class FB_Archive {
 	 * @since  0.0.1
 	 * @return void
 	 */
-	static function on_deactivate() {
-
-		$obj = FB_Archive::get_object();
+	static public function on_deactivate() {
 
 		global $wp_roles;
 
-		foreach ( $obj->todo_roles as $role ) {
+		foreach ( self::$todo_roles as $role ) {
 			$wp_roles->remove_cap( $role, 'edit_' . self::$post_type_1 );
 			$wp_roles->remove_cap( $role, 'read_' . self::$post_type_1 );
 			$wp_roles->remove_cap( $role, 'delete_' . self::$post_type_1 );
@@ -334,7 +351,7 @@ class FB_Archive {
 			$wp_roles->remove_cap( $role, 'assign_' . self::$taxonomy_type_1 );
 		}
 
-		foreach ( $obj->read_roles as $role ) {
+		foreach ( self::$read_roles as $role ) {
 			$wp_roles->remove_cap( $role, 'read_' . self::$post_type_1 );
 		}
 
@@ -410,7 +427,7 @@ class FB_Archive {
 		// add meta box with ID
 		add_meta_box(
 			'id',
-			__( 'Archive Info', self::$textdomain ),
+			esc_attr__( 'Archive Info', self::$textdomain ),
 			array( $this, 'additional_meta_box' ),
 			self::$post_type_1,
 			'side', 'high'
@@ -467,8 +484,8 @@ class FB_Archive {
 
 		$actions[ 'archive' ] = '<a href="' . $this->get_archive_post_link( $id->ID )
 			. '" title="'
-			. esc_attr( __( 'Move this item to the Archive', self::$textdomain ) )
-			. '">' . __( 'Archive', self::$textdomain ) . '</a>';
+			. esc_attr__( 'Move this item to the Archive', self::$textdomain )
+			. '">' . esc_attr__( 'Archive', self::$textdomain ) . '</a>';
 
 		return $actions;
 	}
@@ -507,9 +524,9 @@ class FB_Archive {
 		$archived_post_type   = get_post_meta( $id->ID, $this->post_meta_key, TRUE );
 		$actions[ 'archive' ] = '<a href="' . $this->get_unset_archive_post_link( $id->ID )
 			. '&on_archive=1" title="'
-			. esc_attr( __( 'Move this item to the archived post type', self::$textdomain ) )
+			. esc_attr__( 'Move this item to the archived post type', self::$textdomain )
 			. ': ' . $archived_post_type
-			. '">' . __( 'Restore to', self::$textdomain ) . ' <code>' . $archived_post_type . '</code></a>';
+			. '">' . esc_attr__( 'Restore to', self::$textdomain ) . ' <code>' . $archived_post_type . '</code></a>';
 
 		return $actions;
 	}
@@ -591,7 +608,7 @@ class FB_Archive {
 
 	public function filter_bulk_actions( $actions ) {
 
-		$actions[ 'restore_archive' ] = __( 'Restore to Post Type', self::$textdomain );
+		$actions[ 'restore_archive' ] = esc_attr__( 'Restore to Post Type', self::$textdomain );
 
 		return $actions;
 	}
@@ -610,7 +627,7 @@ class FB_Archive {
 			isset( $_GET[ 'post' ] ) || ( isset( $_REQUEST[ 'action' ] ) && 'archive' == $_REQUEST[ 'action' ] )
 		)
 		) {
-			wp_die( __( 'No post to archive has been supplied!', self::$textdomain ) );
+			wp_die( esc_attr__( 'No post to archive has been supplied!', self::$textdomain ) );
 		}
 
 		$id = (int) ( isset( $_GET[ 'post' ] ) ? $_GET[ 'post' ] : $_REQUEST[ 'post' ] );
@@ -628,7 +645,7 @@ class FB_Archive {
 			wp_redirect( admin_url( 'edit.php?' . $redirect_post_type . 'archived=1&ids=' . $id ) );
 			exit;
 		} else {
-			wp_die( __( "Sorry, I can't find the post-id", self::$textdomain ) );
+			wp_die( esc_attr__( "Sorry, I can't find the post-id", self::$textdomain ) );
 		}
 
 	}
@@ -647,7 +664,7 @@ class FB_Archive {
 			isset( $_GET[ 'post' ] ) || ( isset( $_REQUEST[ 'action' ] ) && 'unset_archive' == $_REQUEST[ 'action' ] )
 		)
 		) {
-			wp_die( __( 'No item to undo archive has been supplied!', self::$textdomain ) );
+			wp_die( esc_attr__( 'No item to undo archive has been supplied!', self::$textdomain ) );
 		}
 
 		$id = (int) ( isset( $_GET[ 'post' ] ) ? $_GET[ 'post' ] : $_REQUEST[ 'post' ] );
@@ -667,7 +684,7 @@ class FB_Archive {
 			wp_redirect( admin_url( 'edit.php?' . $redirect_post_type . 'unset_archived=1&ids=' . $id ) );
 			exit;
 		} else {
-			wp_die( __( 'Sorry, i cant find the post-id', self::$textdomain ) );
+			wp_die( esc_attr__( 'Sorry, i cant find the post-id', self::$textdomain ) );
 		}
 
 	}
@@ -756,9 +773,8 @@ class FB_Archive {
 				number_format_i18n( $_REQUEST[ 'archived' ] )
 			);
 			$ids              = isset( $_REQUEST[ 'ids' ] ) ? $_REQUEST[ 'ids' ] : 0;
-			$message_archived .= ' <a href="' . $this->get_unset_archive_post_link( $ids ) . '">' . __(
-					'Undo'
-				) . '</a>';
+			$message_archived .= ' <a href="' . $this->get_unset_archive_post_link( $ids ) . '">'
+				. esc_attr__( 'Undo' ) . '</a>';
 		}
 
 		if ( isset( $_REQUEST[ 'unset_archived' ] ) ) {
@@ -811,7 +827,7 @@ class FB_Archive {
 	 * Admin post meta contents
 	 *
 	 * @uses   get_post_meta
-	 * @ccess  public
+	 * @access  public
 	 * @since  0.0.1
 	 *
 	 * @param  array $data
@@ -821,9 +837,9 @@ class FB_Archive {
 	public function additional_meta_box( $data ) {
 
 		if ( $data->ID ) {
-			echo '<p>' . __( 'ID of this archived item:', self::$textdomain )
+			echo '<p>' . esc_attr__( 'ID of this archived item:', self::$textdomain )
 				. ' <code>' . $data->ID . '</code></p>';
-			echo '<p>' . __( 'Archived Post Type:', self::$textdomain )
+			echo '<p>' . esc_attr__( 'Archived Post Type:', self::$textdomain )
 				. ' <code>' . get_post_meta( $data->ID, $this->post_meta_key, TRUE ) . '</code></p>';
 
 		}
@@ -841,17 +857,17 @@ class FB_Archive {
 
 		// labels for return post type Snippet
 		$labels = array(
-			'name'               => __( 'Archive', self::$textdomain ),
-			'singular_name'      => __( 'Archive', self::$textdomain ),
-			'add_new'            => __( 'Add New', self::$textdomain ),
-			'add_new_item'       => __( 'Add New Item', self::$textdomain ),
-			'edit_item'          => __( 'Edit Item', self::$textdomain ),
-			'new_item'           => __( 'New Item in Archive', self::$textdomain ),
-			'view_item'          => __( 'View Item', self::$textdomain ),
-			'search_items'       => __( 'Search in Archive', self::$textdomain ),
-			'not_found'          => __( 'No item found in Archive', self::$textdomain ),
-			'not_found_in_trash' => __( 'No item found in Archive-Trash', self::$textdomain ),
-			'parent_item_colon'  => __( 'Parent item in Archive', self::$textdomain )
+			'name'               => esc_attr__( 'Archive', self::$textdomain ),
+			'singular_name'      => esc_attr__( 'Archive', self::$textdomain ),
+			'add_new'            => esc_attr__( 'Add New', self::$textdomain ),
+			'add_new_item'       => esc_attr__( 'Add New Item', self::$textdomain ),
+			'edit_item'          => esc_attr__( 'Edit Item', self::$textdomain ),
+			'new_item'           => esc_attr__( 'New Item in Archive', self::$textdomain ),
+			'view_item'          => esc_attr__( 'View Item', self::$textdomain ),
+			'search_items'       => esc_attr__( 'Search in Archive', self::$textdomain ),
+			'not_found'          => esc_attr__( 'No item found in Archive', self::$textdomain ),
+			'not_found_in_trash' => esc_attr__( 'No item found in Archive-Trash', self::$textdomain ),
+			'parent_item_colon'  => esc_attr__( 'Parent item in Archive', self::$textdomain )
 		);
 
 		/*
@@ -914,7 +930,7 @@ class FB_Archive {
 		 */
 		$args = array(
 			'labels'              => $labels,
-			'description'         => __(
+			'description'         => esc_attr__(
 				'Archive post, pages and other post types to a Archive.', self::$textdomain
 			),
 			'public'              => TRUE,
@@ -924,7 +940,7 @@ class FB_Archive {
 			'menu_position'       => 22,
 			'menu_icon'           => 'dashicons-archive',
 			//'capability_type'     => 'post',
-			//'capabilities'        => $capabilities,
+			'capabilities'        => $capabilities,
 			'supports'            => array(
 				'title',
 				'editor',
@@ -1021,7 +1037,7 @@ class FB_Archive {
 	public function add_columns( $columns ) {
 
 		// add id list
-		$columns[ 'aid' ] = __( 'ID', self::$textdomain );
+		$columns[ 'aid' ] = esc_attr__( 'ID', self::$textdomain );
 
 		/*
 		// remove author list
@@ -1029,7 +1045,7 @@ class FB_Archive {
 		// add structure tax
 		$this->array_insert( $columns,
 			2,
-			array( self::$taxonomy_type_1 => __( 'Structures', self::$textdomain ) )
+			array( self::$taxonomy_type_1 => esc_attr__( 'Structures', self::$textdomain ) )
 		); */
 
 		return $columns;
@@ -1057,7 +1073,7 @@ class FB_Archive {
 				if ( isset( $taxonomys[ 0 ] ) ) {
 					$structure = $taxonomys;
 				} else {
-					$structure = __( 'No', self::$textdomain ) . self::$taxonomy_type_1;
+					$structure = esc_attr__( 'No', self::$textdomain ) . self::$taxonomy_type_1;
 				}
 
 				$value = $structure;
@@ -1127,8 +1143,8 @@ class FB_Archive {
 	public function add_value_to_row() {
 
 		// on screen: edit-snippets
-		add_action( 'manage_edit-' . self::$post_type_1 . '_columns', array( &$this, 'add_columns' ) );
-		add_filter( 'manage_posts_custom_column', array( &$this, 'return_custom_columns' ), 10, 3 );
+		add_action( 'manage_edit-' . self::$post_type_1 . '_columns', array( $this, 'add_columns' ) );
+		add_filter( 'manage_posts_custom_column', array( $this, 'return_custom_columns' ), 10, 3 );
 	}
 
 	/**
@@ -1173,7 +1189,7 @@ class FB_Archive {
 
 		$contextual_help =
 			'<p>' .
-			__( 'Archive - maybe later an help for this plugin', self::$textdomain ) .
+			esc_attr__( 'Archive - maybe later an help for this plugin', self::$textdomain ) .
 			'</p>' . "\n";
 
 		return $contextual_help;
@@ -1270,6 +1286,7 @@ class FB_Archive {
 
 		}
 
+		wp_reset_postdata();
 		wp_reset_query();
 
 		$archived_posts = '<' . $a[ 'return_markup' ] . '>' . $archived_posts . '</' . $a[ 'return_markup' ] . '>';
