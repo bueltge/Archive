@@ -9,7 +9,7 @@ Archive your post types, also possible with cron and list via shortcode on front
 
 == Description ==
 Archive your post types, also possible via cron; but only active via var inside the php-file.
-Use the shortcode [archive] to list al posts from Archive with status publish to a page or post.
+Use the shortcode [archive] to list all posts from Archive with status publish to a page or post.
 The shortcode can use different params and use the follow defaults.
 
 	`

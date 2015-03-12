@@ -1206,9 +1206,23 @@ class FB_Archive {
 		}
 
 		$contextual_help =
-			'<p>' .
-			esc_attr__( 'Archive - maybe later an help for this plugin', self::$textdomain ) .
-			'</p>' . "\n";
+			'<p>' . esc_attr__( 'Archive your post types, also possible via cron; but only active via variable inside the php-file.', self::$textdomain )
+			. '<br>' . esc_attr__( 'Use the shortcode [archive] to list all posts from Archive with status publish to a page or post.', self::$textdomain )
+			. '<br>' . esc_attr__( 'The shortcode can use different params and use the follow defaults.', self::$textdomain )
+			. '</p><p><pre><code>' . "
+'count'         => -1, // count or -1 for all posts
+'category'      => '', // Show posts associated with certain categories.
+'tag'           => '', // Show posts associated with certain tags.
+'post_status'   => 'publish', // status or all for all posts
+'echo'          => 'true', // echo or give an array for use external
+'return_markup' => 'ul', // markup before echo title, content
+'title_markup'  => 'li', // markup before item
+'content'       => 'false', // view also content?
+'debug'         => 'false' // debug mor vor view an array
+" . '</code></pre></p>'
+			. '<p>' . esc_attr__( 'An example for use shortcode with params:', self::$textdomain )
+			. '<code>[archive count="10" content="true"]</code>'
+			. '</p>';
 
 		return $contextual_help;
 	}
