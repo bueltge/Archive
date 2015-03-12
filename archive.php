@@ -381,6 +381,8 @@ class FB_Archive {
 		$this->add_value_to_row();
 
 		add_action( 'add_meta_boxes', array( $this, 'add_meta_boxes' ) );
+
+		add_action( 'admin_head-edit.php', array( $this, 'add_custom_style' ) );
 	}
 
 	/**
@@ -434,6 +436,22 @@ class FB_Archive {
 		);
 	}
 
+	/**
+	 * Add style value in head for ID column
+	 *
+	 * @since  2015-03-12
+	 * @return null
+	 */
+	public function add_custom_style() {
+
+		$screen = get_current_screen();
+
+		if ( 'edit-archiv' !== $screen->id )
+			return NULL;
+
+		$style = '<style type="text/css">#aid { width: 10%; }</style>';
+		echo $style;
+	}
 	/**
 	 * Schedule check
 	 *
