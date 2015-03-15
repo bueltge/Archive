@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 /**
  * Plugin Name: Archive
  * Description: Archive your post types, also with cron.

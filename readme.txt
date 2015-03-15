@@ -1,4 +1,4 @@
-=== Archive ===
+﻿=== Archive ===
 Contributors: Bueltge, inpsyde
 Tags: post, custom post type, archive
 Requires at least: 3.0
