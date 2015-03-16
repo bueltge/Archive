@@ -12,7 +12,6 @@ Archive your post types, also possible via cron; but only active via var inside 
 Use the shortcode [archive] to list all posts from Archive with status publish to a page or post.
 The shortcode can use different params and use the follow defaults.
 
-	`
 	'count'         => -1, // count or -1 for all posts
 	'category'      => '', // Show posts associated with certain categories.
 	'tag'           => '', // Show posts associated with certain tags.
@@ -22,7 +21,6 @@ The shortcode can use different params and use the follow defaults.
 	'title_markup'  => 'li', // markup before item
 	'content'       => 'false', // view also content?
 	'debug'         => 'false' // debug mor vor view an array
-	`
 
 An example for use shortcode with params: `[archive count="10" content="true"]`
 
