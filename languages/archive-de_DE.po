@@ -74,7 +74,7 @@ msgid "No post to archive has been supplied!"
 msgstr "Kein Artikel zum Archiv geliefert vermerkt!"
 
 #: ../archive.php:615
-msgid "Sorry, I can't find the post-id"
+msgid "Sorry, I can't find the post-post_id"
 msgstr "Entschuldigung, aber ich kann die Post ID nicht finden."
 
 #: ../archive.php:634
@@ -82,7 +82,7 @@ msgid "No item to undo archive has been supplied!"
 msgstr "Es wurde kein Element zum Wiederherstellen gewählt!"
 
 #: ../archive.php:654
-msgid "Sorry, i cant find the post-id"
+msgid "Sorry, i cant find the post-post_id"
 msgstr "Leider finde ich keine die Post-ID"
 
 #: ../archive.php:734

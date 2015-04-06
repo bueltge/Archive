@@ -2,7 +2,7 @@
 Contributors: Bueltge, inpsyde
 Tags: post, custom post type, archive
 Requires at least: 3.0
-Tested up to: 4.2-alpha
+Tested up to: 4.2
 Stable tag: trunk
 
 Archive your post types, also possible with cron and list via shortcode on frontend.
@@ -58,6 +58,10 @@ The plugin comes with various translations, please refer to the [WordPress Codex
 3. In Archive, also possible to restore, WP 3*
 
 == Changelog ==
+= 1.0.2 (2015-04-06) =
+* Fix for activation and 3 characters of unexpected output
+* Small sanitation enhancements
+
 = 1.0.1 (2015-03-12) =
 * Fix activate, deactivate values for all new capabilities on custom post type; Result was an bug to see the menu item
 * Fix value on register post type
