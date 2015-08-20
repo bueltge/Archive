@@ -2,7 +2,7 @@
 Contributors: Bueltge, inpsyde
 Tags: post, custom post type, archive
 Requires at least: 3.0
-Tested up to: 4.2
+Tested up to: 4.3
 Stable tag: trunk
 
 Archive your post types, also possible with cron and list via shortcode on frontend.
