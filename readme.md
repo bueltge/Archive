@@ -23,7 +23,6 @@ An example for use shortcode with params: `[archive count="10" content="true"]`
 Also you can change the parameters to create the custom post type of the Archiv via the filter hook `archive_post_type_arguments`.
 
 ### Crafted by [Inpsyde](http://inpsyde.com) &middot; Engineering the web since 2006.
-Yes, we also run that [marketplace for premium WordPress plugins and themes](http://marketpress.com).
 
 ## Installation
 ### Requirements
@@ -49,8 +48,3 @@ Yes, we also run that [marketplace for premium WordPress plugins and themes](htt
 ## Other Notes
 #### License
 Good news, this plugin is free for everyone! Since it's released under the GPL, you can use it free of charge on your personal or commercial blog. But if you enjoy this plugin, you can thank me and leave a [small donation](http://bueltge.de/wunschliste/ "Wishlist and Donate") for the time I've spent writing and supporting this plugin. And I really don't want to know how many hours of my life this plugin has already eaten ;)
-
-#### Localizations
-* Thanks to [Frank Bültge](http://bueltge.de/ "Frank Bültge") for german language file
-* Thanks to [Brian Flores](http://www.inmotionhosting.com/) for spanish translation
-* Lithuanian translation files by [Vincent G](http://www.host1plus.com)

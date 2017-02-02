@@ -2,7 +2,7 @@
 Contributors: Bueltge, inpsyde
 Tags: post, custom post type, archive
 Requires at least: 3.0
-Tested up to: 4.3
+Tested up to: 4.7.2
 Stable tag: trunk
 
 Archive your post types, also possible with cron and list via shortcode on frontend.
@@ -28,13 +28,6 @@ Also you can change the parameters to create the custom post type of the Archiv 
 
 **Crafted by [Inpsyde](http://inpsyde.com) &middot; Engineering the web since 2006.**
 
-Yes, we also run that [marketplace for premium WordPress plugins and themes](http://marketpress.com).
-
-= Localizations =
-* Thanks to [Frank Bültge](http://bueltge.de/ "Frank Bültge") for german language file
-* Thanks to [Brian Flores](http://www.inmotionhosting.com/) for spanish translation
-* Lithuanian translation files by [Vincent G](http://www.host1plus.com)
-
 == Installation ==
 = Requirements =
 * WordPress version 3.0 and later (tested at 4.2-alpha)
@@ -47,10 +40,7 @@ Yes, we also run that [marketplace for premium WordPress plugins and themes](htt
 1. Now you find a link on all post types for archive the item
 
 = Licence =
-Good news, this plugin is free for everyone! Since it's released under the GPL2+, you can use it free of charge on your personal or commercial blog.
-
-= Translations =
-The plugin comes with various translations, please refer to the [WordPress Codex](http://codex.wordpress.org/Installing_WordPress_in_Your_Language "Installing WordPress in Your Language") for more information about activating the translation. If you want to help to translate the plugin to your language, please have a look at the .po file which contains all definitions and may be used with a [gettext](http://www.gnu.org/software/gettext/) editor like [Poedit](http://www.poedit.net/) (Windows) or plugin for WordPress [Localization](http://wordpress.org/extend/plugins/codestyling-localization/).
+Good news, this plugin is free for everyone! Since it's released under the GPL3+, you can use it free of charge on your personal or commercial blog.
 
 == Screenshots ==
 1. Possibility to archive on posts, WP 4.2-alpha

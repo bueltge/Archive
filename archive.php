@@ -8,7 +8,7 @@
  * Domain Path: /languages
  * Author:      Frank Bültge
  * Author URI:  http://bueltge.de/
- * Licence:     GPLv2+
+ * Licence:     GPLv3+
  * License URI: ./license.txt
  *
  * Php Version 5.3
