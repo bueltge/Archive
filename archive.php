@@ -930,6 +930,7 @@ class FB_Archive {
 			'exclude_from_search' => TRUE,
 			'publicly_queryable'  => TRUE,
 			'show_in_nav_menus'   => FALSE,
+			'show_in_rest'        => TRUE,
 			'menu_position'       => 22,
 			'menu_icon'           => 'dashicons-archive',
 			//'capability_type'     => 'post',
