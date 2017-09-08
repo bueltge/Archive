@@ -18,13 +18,13 @@ The Shortcode can use different params and use the follow defaults.
 'debug'         => 'false' // Boolean, debug, get helpful informations on debugging
 ```
 
-An example for use shortcode with params: `[archive count="10" content="true"]`
+An example for use shortcode with parameters: `[archive count="10" content="true"]`
 
 #### Category
 If you filter the posts to one category, use the ID as integer value, like `category="11"`. For more as one separate with comma, like `category="11,1"`.
 
 #### Tag
-Display posts that have this tag, using tag slug, like `tag="cooking". If you need more as one tag use comma separated list like `tag="bread,baking"`
+Display posts that have this tag, using tag slug, like `tag="cooking"`. If you need more as one tag use comma separated list like `tag="bread,baking"`
 
 Also you can change the parameters to create the custom post type of the Archiv via the filter hook `archive_post_type_arguments`.
 
