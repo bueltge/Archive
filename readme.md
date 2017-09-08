@@ -7,18 +7,24 @@ Use the shortcode [archive] to list al posts from Archive with status publish to
 The Shortcode can use different params and use the follow defaults.
 
 ```php
-'count'         => -1, // count or -1 for all posts
-'category'      => '', // Show posts associated with certain categories.
-'tag'           => '', // Show posts associated with certain tags.
-'post_status'   => 'publish', // status or all for all posts
-'echo'          => 'true', // echo or give an array for use external
-'return_markup' => 'ul', // markup before echo title, content
-'title_markup'  => 'li', // markup before item
-'content'       => 'false', // view also content?
-'debug'         => 'false' // debug mor vor view an array
+'count'         => -1, // Integer, count or -1 for all posts
+'category'      => '', // Integer, Show posts associated with certain categories, use the ID of the category.
+'tag'           => '', // Integer, Show posts associated with certain tags.
+'post_status'   => 'publish', // String, status or all for all posts
+'echo'          => 'true', // Boolean, echo or give an array for use external
+'return_markup' => 'ul', // String, markup before echo title, content
+'title_markup'  => 'li', // String, markup before item
+'content'       => 'false', // Boolean, Content of each post
+'debug'         => 'false' // Boolean, debug, get helpful informations on debugging
 ```
 
 An example for use shortcode with params: `[archive count="10" content="true"]`
+
+#### Category
+If you filter the posts to one category, use the ID as integer value, like `category="11"`. For more as one separate with comma, like `category="11,1"`.
+
+#### Tag
+Display posts that have this tag, using tag slug, like `tag="cooking". If you need more as one tag use comma separated list like `tag="bread,baking"`
 
 Also you can change the parameters to create the custom post type of the Archiv via the filter hook `archive_post_type_arguments`.
 
